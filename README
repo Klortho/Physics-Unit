@@ -1,0 +1,65 @@
+Physics/Unit version 0.04
+=========================
+
+This tarball includes four modules:
+  Physics::Unit
+  Physics::Unit::Scalar
+  Physics::Unit::ScalarSubtypes
+  Physics::Unit::Vector
+
+It also includes two modules which only include documentation
+(implementation notes):
+  Physics::UnitImpl
+  Physics::Unit::ScalarImpl
+
+Objects of class Physics::Unit define units of measurement that correspond
+to physical quantities.  This module allows you to manipulate these units,
+generate new derived units from other units, and convert from one unit
+to another.  Each unit is defined by a conversion factor and a
+dimensionality vector.
+
+Objects of type Physics::Unit::Scalar store physical quantities.  Each
+instance of a class that derives from Physics::Unit::Scalar holds the value
+of some type of measurable quantity.  When you use this module, several new
+classes are immediately available.  See the Derived Classes section of the
+documentation for a complete list
+
+The module Physics::Unit::ScalarSubtypes defines several classes that
+derive from Physics::Unit::Scalar, each corresponding to a different
+physical quantity.
+
+Objects of class Physics::Unit::Vector hold vector quantities.  This
+module is still in an embryonic stage.
+
+
+SEE ALSO
+
+The perldoc documentation for each of the above modules for more
+information.  Implementation notes are in UnitImpl.pm and
+Unit/ScalarImpl.pm.
+
+The examples in the eg/ directory.
+
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+
+DEPENDENCIES
+
+This module is pure Perl, and requires no other modules.
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2003 Chris Maloney
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
