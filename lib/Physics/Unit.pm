@@ -1512,7 +1512,7 @@ here so that other modules can use it for convenience.
 A (correct) regular expression for a floating point number,
 optionally in exponent form. This is hard to come by.
 
-This variable may also be exported for ease of use.
+This variable may also be imported for ease of use.
 
 
 =head1 PUBLIC UTILITY FUNCTIONS
