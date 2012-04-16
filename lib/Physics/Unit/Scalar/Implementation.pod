@@ -1,6 +1,6 @@
-=head1 Physics::Unit::Scalar Implementation
+=head1 NAME
 
-This page discusses implementation issues of the Physics/Unit/Scalar.pm
+Physics::Unit::Scalar::Implementation - This page discusses implementation issues of the Physics/Unit/Scalar.pm
 module.
 
 =head1 Private Functions

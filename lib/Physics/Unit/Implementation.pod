@@ -1,6 +1,6 @@
-=head1 Physics::Unit Implementation
+=head1 NAME
 
-This page discusses implementation issues of the Physics/Unit.pm
+Physics::Unit::Implementation - This page discusses implementation issues of the Physics/Unit.pm
 module.
 
 =head1 Data Structures
