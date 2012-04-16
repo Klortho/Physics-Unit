@@ -1,19 +1,5 @@
 bg.gif
 Changes
-Makefile.PL
-MANIFEST
-README
-UnitsByName.html
-UnitsByType.html
-lib/Physics/Unit.pm
-lib/Physics/UnitImpl.pm
-lib/Physics/Unit/Scalar.pm
-lib/Physics/Unit/ScalarImpl.pm
-lib/Physics/Unit/ScalarSubtypes.pm
-lib/Physics/Unit/Vector.pm
-t/unit.t
-t/scalar.t
-t/vector.t
 eg/ScalarDebug.pl
 eg/ScalarMethods.pl
 eg/ScalarSimple.pl
@@ -24,3 +10,17 @@ eg/UnitLists.pl
 eg/UnitSimple.pl
 eg/VectorDebug.pl
 eg/VectorSimple.pl
+lib/Physics/Unit.pm
+lib/Physics/Unit/Implementation.pod
+lib/Physics/Unit/Scalar.pm
+lib/Physics/Unit/Scalar/Implementation.pod
+lib/Physics/Unit/ScalarSubtypes.pm
+lib/Physics/Unit/Vector.pm
+Makefile.PL
+MANIFEST			This list of files
+README
+t/scalar.t
+t/unit.t
+t/vector.t
+UnitsByName.html
+UnitsByType.html
