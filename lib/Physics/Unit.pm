@@ -11,7 +11,7 @@ use vars qw(
     $number_re
 );
 
-my @export_ok_list = qw(
+@EXPORT_OK = qw(
     $number_re
     GetTypeUnit
     GetUnit
@@ -24,8 +24,7 @@ my @export_ok_list = qw(
     NumBases
 );
 
-%EXPORT_TAGS = ('ALL' => \@export_ok_list);
-@EXPORT_OK   = @export_ok_list;
+%EXPORT_TAGS = ('ALL' => \@EXPORT_OK);
 $VERSION = '0.04';
 
 # This is the regular expression used to parse out a number.  It
