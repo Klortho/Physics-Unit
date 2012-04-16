@@ -1493,7 +1493,7 @@ Or, you can just get specific ones. For example:
 
   use Physics::Unit qw( GetUnit ListUnits );
 
-=head1 Class Data
+=head1 PACKAGE VARIABLES
 
 =head2 $debug
 
@@ -1513,40 +1513,7 @@ here so that other modules can use it for convenience.
 A (correct) regular expression for a floating point number,
 optionally in exponent form. This is hard to come by.
 
-=head2 %reserved_word
-
-A list of reserved words in Unit expressions.
-
-=head2 %unit_by_name
-
-A list of all known unit names. The value of the hash is a reference
-to the named unit object.
-
-=head2 %prefix
-
-A list of all the valid prefixes. The value of the hash is a
-reference to the unit object. Note that the names here are also in
-%unit_by_name.
-
-These are special case unit names that can be attached to other units
-with no intervening spaces.
-
-=head2 %prototype
-
-A list of all the known types. The values of this hash are references
-to unit objects that exemplify these types. I.e., any other units
-that have the same type will have the same dimensionality as the
-example unit.
-
-=head2 $NumBases
-
-The number of base units.
-
-=head2 @BaseName
-
-The name of each of the base units. These names also appear in
-%unit_by_name.
-
+This variable may also be exported for ease of use.
 
 
 =head1 PUBLIC UTILITY FUNCTIONS
