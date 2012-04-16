@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use lib 'lib';
+
+use Getopt::Long;
+use Physics::Unit ':ALL';
+
+my ($types, $units);
+
+GetOptions(
+  types => \$types,
+  units => \$units,
+);
+
+if ($types) {
+  print "$_\n" for ListTypes;
+}
+
+if ($units) {
+  print "$_\n" for ListUnits;
+}
+
+my %classes = (
+  3 => 'Type',
+  2 => 'Unit',
+  1 => 'Reserved',
+  0 => 'Not Known',
+  -1 => 'Derived',
+);
+
+foreach my $name (@ARGV) {
+  my $class = Physics::Unit::LookName($name);
+  my $string = '';
+  my $factor = '';
+
+  if ($class == 1) {
+    $string = 'NA';
+    $factor = 'NA';
+  } elsif ($class == 3) {
+    $string = GetTypeUnit($name)->ToString;
+  } else {
+    my $unit = GetUnit($name);
+    if ($class == 0 and defined $unit) {
+      $class = -1;
+    }
+    my $type = GetTypeUnit($unit->type);
+    $string = $unit->ToString;
+    $factor = $unit->factor . " " . $type->ToString;
+  }
+
+  print <<INFO;
+Name: $name
+Class: $classes{$class}
+Definition: $string
+Conversion: $factor
+INFO
+}
+
+
