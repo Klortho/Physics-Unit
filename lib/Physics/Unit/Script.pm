@@ -13,8 +13,9 @@ sub getopt {
   my %opts;
 
   GetOptions(
-    types => \$opts{types},
-    units => \$opts{units},
+    types  => \$opts{types},
+    units  => \$opts{units},
+    export => \$opts{export},
   );
 
   return \%opts;

@@ -1,16 +1,21 @@
+package Physics::Unit::Script::GenPages;
+
 # This test program generates the UnitsByName.html and
 # UnitsByType.html pages.
 
-use Physics::Unit ':ALL';
 use strict;
+use warnings;
 
-GenPages();
-print "ok\n";
+use Physics::Unit ':ALL';
 
+use parent 'Exporter';
+our @EXPORT = qw/GenPages/;
 
 #-----------------------------------------------------------
 sub GenPages
 {
+    my @return;
+
     # Define some constants:
 
     my $trailer = <<END_TRAILER;
@@ -26,6 +31,8 @@ END_TRAILER
     # Generate Units by Name
 
     $outFile = "UnitsByName.html";
+    push @return, $outFile;
+
     open NAMES, ">$outFile" or die "Can't open $outFile for output";
     print "Generating $outFile\n";
 
@@ -44,6 +51,8 @@ END_TRAILER
     # Generate Units by Type
 
     $outFile = "UnitsByType.html";
+    push @return, $outFile;
+
     open NAMES, ">$outFile" or die "Can't open $outFile for output";
     print "Generating $outFile\n";
 
@@ -75,6 +84,8 @@ END_TRAILER
 
     print NAMES $trailer;
     close NAMES;
+
+    return @return;
 }
 
 #-----------------------------------------------------------
