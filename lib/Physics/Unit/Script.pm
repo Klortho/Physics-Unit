@@ -5,9 +5,31 @@ use warnings;
 
 use Getopt::Long;
 use Physics::Unit ':ALL';
+use Physics::Unit::Script::GenPages;
 
 use parent 'Exporter';
-our @EXPORT_OK = qw/getopt name_info/;
+our @EXPORT_OK = qw/run_script getopt name_info/;
+
+sub run_script {
+  my $opts = getopt();
+
+  if ($opts->{export}) {
+    my @files = GenPages();
+    print join(' ', @files), "\n";
+  }
+
+  if ($opts->{types}) {
+    print "$_\n" for ListTypes;
+  }
+
+  if ($opts->{units}) {
+    print "$_\n" for ListUnits;
+  }
+
+  foreach my $name (@ARGV) {
+    name_info($name);
+  }
+}
 
 sub getopt {
   my %opts;

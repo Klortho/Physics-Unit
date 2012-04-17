@@ -5,28 +5,8 @@ use warnings;
 
 use lib 'lib';
 
-use Getopt::Long;
-use Physics::Unit ':ALL';
-use Physics::Unit::Script qw/getopt name_info/;
-use Physics::Unit::Script::GenPages;
+use Physics::Unit::Script qw/run_script/;
 
-my $opts = getopt();
-
-if ($opts->{export}) {
-  my @files = GenPages();
-  print join(' ', @files), "\n";
-}
-
-if ($opts->{types}) {
-  print "$_\n" for ListTypes;
-}
-
-if ($opts->{units}) {
-  print "$_\n" for ListUnits;
-}
-
-foreach my $name (@ARGV) {
-  name_info($name);
-}
+run_script;
 
 
