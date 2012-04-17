@@ -34,7 +34,7 @@ END_TRAILER
     push @return, $outFile;
 
     open NAMES, ">$outFile" or die "Can't open $outFile for output";
-    print "Generating $outFile\n";
+    #print "Generating $outFile\n";
 
     print NAMES header("Name");
     print NAMES tableHeader(1);
@@ -54,7 +54,7 @@ END_TRAILER
     push @return, $outFile;
 
     open NAMES, ">$outFile" or die "Can't open $outFile for output";
-    print "Generating $outFile\n";
+    #print "Generating $outFile\n";
 
     print NAMES header("Type");
 
@@ -73,7 +73,7 @@ END_TRAILER
     for my $name (sort byType ListUnits())
     {
         my $n = GetUnit($name);
-        my $t = $n->type;
+        my $t = $n->type || '';
         if ($t ne $lastType) {
             print NAMES typeRow($t);
             $lastType = $t;
@@ -100,9 +100,6 @@ sub header
     <title>$title</title>
     <style type='text/css'>
       <!--
-        body {
-          background: url(bg.gif) #FBF1E9;
-        }
         th {
           color: white;
           font-size: larger;
