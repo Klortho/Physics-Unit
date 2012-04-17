@@ -7,56 +7,20 @@ use lib 'lib';
 
 use Getopt::Long;
 use Physics::Unit ':ALL';
+use Physics::Unit::Script qw/getopt name_info/;
 
-my ($types, $units);
+my $opts = getopt();
 
-GetOptions(
-  types => \$types,
-  units => \$units,
-);
-
-if ($types) {
+if ($opts->{types}) {
   print "$_\n" for ListTypes;
 }
 
-if ($units) {
+if ($opts->{units}) {
   print "$_\n" for ListUnits;
 }
 
-my %classes = (
-  3 => 'Type',
-  2 => 'Unit',
-  1 => 'Reserved',
-  0 => 'Not Known',
-  -1 => 'Derived',
-);
-
 foreach my $name (@ARGV) {
-  my $class = Physics::Unit::LookName($name);
-  my $string = '';
-  my $factor = '';
-
-  if ($class == 1) {
-    $string = 'NA';
-    $factor = 'NA';
-  } elsif ($class == 3) {
-    $string = GetTypeUnit($name)->ToString;
-  } else {
-    my $unit = GetUnit($name);
-    if ($class == 0 and defined $unit) {
-      $class = -1;
-    }
-    my $type = GetTypeUnit($unit->type);
-    $string = $unit->ToString;
-    $factor = $unit->factor . " " . $type->ToString;
-  }
-
-  print <<INFO;
-Name: $name
-Class: $classes{$class}
-Definition: $string
-Conversion: $factor
-INFO
+  name_info($name);
 }
 
 
