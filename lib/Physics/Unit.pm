@@ -189,6 +189,7 @@ InitUnit (
     ['angstrom', 'a', 'angstroms',],            '1e-10 m',          # exact
     ['cm',],                                    'centimeter',       # exact
     ['km',],                                    'kilometer',        # exact
+    ['metre',],                                 'meter',
 
     ['pica',],                                  'in/6',    # exact, but see
                                                            # below
