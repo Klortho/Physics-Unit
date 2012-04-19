@@ -61,7 +61,7 @@ my $NumBases = 0;
 my @BaseName;
 
 InitBaseUnit (
-    'Distance'    => ['meter', 'm', 'meters'],
+    'Distance'    => ['meter', 'm', 'meters', 'metre', 'metres'],
     'Mass'        => ['gram', 'gm', 'grams'],
     'Time'        => ['second', 's', 'sec', 'secs', 'seconds'],
     'Temperature' => ['kelvin', 'k', 'kelvins',
@@ -189,7 +189,6 @@ InitUnit (
     ['angstrom', 'a', 'angstroms',],            '1e-10 m',          # exact
     ['cm',],                                    'centimeter',       # exact
     ['km',],                                    'kilometer',        # exact
-    ['metre',],                                 'meter',
 
     ['pica',],                                  'in/6',    # exact, but see
                                                            # below
