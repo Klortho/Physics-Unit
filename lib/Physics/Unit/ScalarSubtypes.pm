@@ -3,6 +3,8 @@ use strict;
 use Physics::Unit::Scalar;
 use vars qw( $VERSION @ISA $MyUnit );
 $VERSION = '0.05';
+$VERSION = eval $VERSION;
+
 @ISA = qw( Physics::Unit::Scalar );
 
 $MyUnit = GetUnit('m/s^2');

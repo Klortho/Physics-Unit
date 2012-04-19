@@ -7,7 +7,10 @@ use Getopt::Long;
 use Physics::Unit ':ALL';
 use Physics::Unit::Script::GenPages;
 
-use parent 'Exporter';
+our $VERSION = '0.05';
+$VERSION = eval $VERSION;
+
+use base 'Exporter';
 our @EXPORT_OK = qw/run_script getopt name_info/;
 
 sub run_script {

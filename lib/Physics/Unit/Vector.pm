@@ -4,6 +4,8 @@ use strict;
 use Carp;
 use vars qw($VERSION $debug);
 $VERSION = '0.05';
+$VERSION = eval $VERSION;
+
 use Physics::Unit::Scalar;
 
 

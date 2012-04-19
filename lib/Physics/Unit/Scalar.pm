@@ -4,6 +4,8 @@ use strict;
 use Carp;
 use vars qw($VERSION $debug);
 $VERSION = '0.05';
+$VERSION = eval $VERSION;
+
 use Physics::Unit ':ALL';
 
 # This is the actual content of a user defined unit.

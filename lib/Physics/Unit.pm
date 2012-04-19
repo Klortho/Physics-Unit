@@ -11,6 +11,9 @@ use vars qw(
     $number_re
 );
 
+$VERSION = '0.05';
+$VERSION = eval $VERSION;
+
 @EXPORT_OK = qw(
     $number_re
     GetTypeUnit
@@ -25,7 +28,6 @@ use vars qw(
 );
 
 %EXPORT_TAGS = ('ALL' => \@EXPORT_OK);
-$VERSION = '0.05';
 
 # This is the regular expression used to parse out a number.  It
 # is here so that other modules can use it for convenience.
@@ -229,6 +231,7 @@ InitUnit (
     ['ug',],                                    'microgram',        # exact
 
     ['dram', 'drams'],                          'ounce / 16',       # exact
+
     ['troy-pound', 'troy-pounds'],              '0.373 kg',
     ['troy-ounce', 'troy-ounces',
      'ounce-troy', 'ounces-troy'],              '31.103 gm',
