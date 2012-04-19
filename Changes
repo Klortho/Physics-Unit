@@ -1,12 +1,12 @@
 Revision history for Perl extension Physics::Unit.
 
-0.04
+0.04  Mar 21, 2003
   - Changed several tests in unit.t to use RE matches instead of exact
     numerical equality for floating point numbers.  This should fix the
     failures that I got from some of the Perl testers on other
     platforms.
 
-0.03
+0.03  Mar 20, 2003
   - Took out "print 'Howdy!'" from Unit.pm:  ooops!  I had put that
     in there to make sure that when developing, I was using the correct
     copy of the module.
@@ -40,7 +40,7 @@ Revision history for Perl extension Physics::Unit.
   - Added UnitsByName.html and UnitsByType.html to the MANIFEST.  These
     are generated automagically by the UnitGenDoc.pl example script.
 
-0.02
+0.02  Mar 19, 2003
   - Added the prefixes "semi" and "demi", for 0.5.
   - Added the binary prefixes; see
     http://physics.nist.gov/cuu/Units/binary.html
