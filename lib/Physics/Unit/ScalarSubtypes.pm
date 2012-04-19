@@ -9,7 +9,6 @@ $VERSION = eval $VERSION;
 
 $MyUnit = GetUnit('m/s^2');
 
-1;
 
 package Physics::Unit::Area;
 use strict;
@@ -19,7 +18,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('are');
 
-1;
 
 package Physics::Unit::Capacitance;
 use strict;
@@ -29,7 +27,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('farad');
 
-1;
 
 package Physics::Unit::Charge;
 use strict;
@@ -39,7 +36,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('coulomb');
 
-1;
 
 package Physics::Unit::Conductance;
 use strict;
@@ -49,7 +45,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('siemens');
 
-1;
 
 package Physics::Unit::Current;
 use strict;
@@ -59,7 +54,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('ampere');
 
-1;
 
 package Physics::Unit::Data;
 use strict;
@@ -69,7 +63,7 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('bit');
 
-1;
+
 package Physics::Unit::Distance;
 use strict;
 use Physics::Unit::Scalar;
@@ -78,7 +72,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('meter');
 
-1;
 
 package Physics::Unit::Dose;
 use strict;
@@ -88,7 +81,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('gray');
 
-1;
 
 package Physics::Unit::Dimensionless;
 use strict;
@@ -98,7 +90,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('unity');
 
-1;
 
 package Physics::Unit::Electric_potential;
 use strict;
@@ -108,7 +99,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('volt');
 
-1;
 
 package Physics::Unit::Energy;
 use strict;
@@ -118,7 +108,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('joule');
 
-1;
 
 package Physics::Unit::Force;
 use strict;
@@ -128,7 +117,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('newton');
 
-1;
 
 package Physics::Unit::Frequency;
 use strict;
@@ -138,7 +126,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('hertz');
 
-1;
 
 package Physics::Unit::Inductance;
 use strict;
@@ -148,7 +135,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('henry');
 
-1;
 
 package Physics::Unit::Luminosity;
 use strict;
@@ -158,7 +144,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('candela');
 
-1;
 
 package Physics::Unit::Magnetic_field;
 use strict;
@@ -168,7 +153,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('tesla');
 
-1;
 
 package Physics::Unit::Magnetic_flux;
 use strict;
@@ -178,7 +162,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('weber');
 
-1;
 
 package Physics::Unit::Mass;
 use strict;
@@ -188,7 +171,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('gram');
 
-1;
 
 package Physics::Unit::Money;
 use strict;
@@ -208,7 +190,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('watt');
 
-1;
 
 package Physics::Unit::Pressure;
 use strict;
@@ -218,7 +199,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('pascal');
 
-1;
 
 package Physics::Unit::Resistance;
 use strict;
@@ -228,7 +208,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('ohm');
 
-1;
 
 package Physics::Unit::Speed;
 use strict;
@@ -238,7 +217,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('mps');
 
-1;
 
 package Physics::Unit::Substance;
 use strict;
@@ -258,7 +236,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('kelvin');
 
-1;
 
 package Physics::Unit::Time;
 use strict;
@@ -268,7 +245,6 @@ use vars qw( @ISA $MyUnit );
 
 $MyUnit = GetUnit('second');
 
-1;
 
 package Physics::Unit::Volume;
 use strict;
@@ -279,6 +255,7 @@ use vars qw( @ISA $MyUnit );
 $MyUnit = GetUnit('liter');
 
 1;
+
 __END__
 
 =head1 NAME
