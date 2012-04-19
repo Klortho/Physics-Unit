@@ -144,7 +144,7 @@ is($u->expanded, '8 m s^-1', '8 m s^-1');
 # define your own units
 $Uforce = new Physics::Unit('3 pi kg*nanoparsecs / femtofortnight sec');
 ok(!defined $Uforce->name, '$Uforce->name');
-is($Uforce->expanded, '2.40216521602612e+20 m gm s^-2', '$Uforce->expanded');
+like($Uforce->expanded, qr/2\.40216521602612\d*e\+0*20 m gm s\^-2/, '$Uforce->expanded');
 
 $Uaccl1 = new Physics::Unit('meters per second squared');
 ok(!defined $Uaccl1->name, '$Uforce->name');
@@ -152,7 +152,7 @@ is($Uaccl1->expanded, 'm s^-2', '$Uaccl1->expanded');
 
 $Uaccl2 = new Physics::Unit('furlong / square score');
 ok(!defined $Uaccl2->name, '$Uforce->name');
-is($Uaccl2->expanded, '5.04999528589989e-16 m s^-2', '$Uaccl2->expanded');
+like($Uaccl2->expanded, qr/5\.04999528589989\d*e-0*16 m s\^-2/, '$Uaccl2->expanded');
 
 # British spelling
 
