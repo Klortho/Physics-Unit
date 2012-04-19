@@ -1,5 +1,9 @@
 Revision history for Perl extension Physics::Unit.
 
+0.05  
+  - Use Module::Build rather than EU::MM
+  - Added physics-unit utility script
+
 0.04  Mar 21, 2003
   - Changed several tests in unit.t to use RE matches instead of exact
     numerical equality for floating point numbers.  This should fix the
