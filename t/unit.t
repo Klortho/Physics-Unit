@@ -1,4 +1,4 @@
-use Test::More tests => 39;
+use Test::More tests => 40;
 
 BEGIN { use_ok('Physics::Unit', (':ALL')) };
 
@@ -154,3 +154,8 @@ $Uaccl2 = new Physics::Unit('furlong / square score');
 ok(!defined $Uaccl2->name, '$Uforce->name');
 is($Uaccl2->expanded, '5.04999528589989e-16 m s^-2', '$Uaccl2->expanded');
 
+# British spelling
+
+my $centimetre = new Physics::Unit('centimetre / second');
+my $centimetre_expanded = $centimetre->expanded ();
+ok ($centimetre_expanded eq '0.01 m s^-1');
