@@ -1,4 +1,5 @@
 bin/physics-unit
+Build.PL
 Changes
 eg/ScalarDebug.pl
 eg/ScalarMethods.pl
@@ -17,7 +18,6 @@ lib/Physics/Unit/ScalarSubtypes.pm
 lib/Physics/Unit/Script.pm
 lib/Physics/Unit/Script/GenPages.pm
 lib/Physics/Unit/Vector.pm
-Makefile.PL
 MANIFEST			This list of files
 README
 t/scalar.t
