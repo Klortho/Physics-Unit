@@ -7,7 +7,7 @@ use Getopt::Long;
 use Physics::Unit ':ALL';
 use Physics::Unit::Script::GenPages;
 
-our $VERSION = '0.04_01';
+our $VERSION = '0.04_02';
 $VERSION = eval $VERSION;
 
 use base 'Exporter';

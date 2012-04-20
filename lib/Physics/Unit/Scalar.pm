@@ -3,7 +3,7 @@ package Physics::Unit::Scalar;
 use strict;
 use Carp;
 use vars qw($VERSION $debug);
-$VERSION = '0.04_01';
+$VERSION = '0.04_02';
 $VERSION = eval $VERSION;
 
 use Physics::Unit ':ALL';
