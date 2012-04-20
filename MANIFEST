@@ -23,3 +23,5 @@ README
 t/scalar.t
 t/unit.t
 t/vector.t
+META.yml
+META.json
