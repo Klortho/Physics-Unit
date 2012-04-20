@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-use lib 'lib';
-
 use Pod::Usage;
 use Getopt::Long;
 
