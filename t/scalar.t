@@ -42,7 +42,7 @@ like($dstr, '/^104\.21371192237\d* mile$/', '98 mi + 10 km == 104.. mile');
 
 
 my $dv = $d->convert('mile');
-is($dv, 104.213711922373, '98 mi + 10 km value in miles');
+like($dv, qr/104\.213711922373\d*/, '98 mi + 10 km value in miles');
 
 
 my $d2 = new Physics::Unit::Distance('2000');
