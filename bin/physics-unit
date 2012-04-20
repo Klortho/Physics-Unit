@@ -49,6 +49,8 @@ L<Physics::Unit> is a Perl module for managing units and unit conversions. The C
   -e
   --export
       Export a complete list of known units and types as HTML documents. 
+      Prints the names of the created files to STDOUT, this allows:
+        firefox `physics-unit -e`
 
   -h
   --help
