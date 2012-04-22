@@ -15,28 +15,15 @@ our @EXPORT = qw/GenPages/;
 sub GenPages
 {
     my @return;
-
-    # Define some constants:
-
-    my $trailer = <<END_TRAILER;
-      </table>
-  </body>
-</html>
-END_TRAILER
-
-
     my $outFile;
-
 
     # Generate Units by Name
 
     $outFile = "UnitsByName.html";
     push @return, $outFile;
-
     open NAMES, ">$outFile" or die "Can't open $outFile for output";
-    #print "Generating $outFile\n";
-
     print NAMES header("Name");
+
     print NAMES tableHeader(1);
 
     for my $name (ListUnits()) {
@@ -44,7 +31,7 @@ END_TRAILER
         printrow(1, $name, $n->type(), $n->def(), $n->expanded());
     }
 
-    print NAMES $trailer;
+    print NAMES trailer();
     close NAMES;
 
 
@@ -52,15 +39,12 @@ END_TRAILER
 
     $outFile = "UnitsByType.html";
     push @return, $outFile;
-
     open NAMES, ">$outFile" or die "Can't open $outFile for output";
-    #print "Generating $outFile\n";
-
     print NAMES header("Type");
 
     # Print out the "Table of Contents"
 
-    my @t = ('Unknown', 'prefix', ListTypes());
+    my @t = ('unknown', 'prefix', ListTypes());
     my @links = map "      <a href='#$_'>$_</a>", @t;
     print NAMES join ",\n", @links;
 
@@ -82,7 +66,7 @@ END_TRAILER
         printrow(0, $name, $t, $n->def, $n->expanded);
     }
 
-    print NAMES $trailer;
+    print NAMES trailer();
     close NAMES;
 
     return @return;
@@ -98,19 +82,23 @@ sub header
 <html>
   <head>
     <title>$title</title>
-    <style type='text/css'>
-      <!--
-        th {
-          color: white;
-          font-size: larger;
-        }
-      -->
-    </style>
+    <link rel="stylesheet" href="http://st.pimg.net/tucs/style.css" type="text/css" />
   </head>
-  <body background="bg-paper.gif">
-
-    <h1>$title</h1>
+  <body>
+    <div class='pod'>
+      <h1>$title</h1>
 END_HEADER
+}
+
+#-----------------------------------------------------------
+sub trailer
+{
+    return <<END_TRAILER;
+      </table>
+    </div>
+  </body>
+</html>
+END_TRAILER
 }
 
 #-----------------------------------------------------------
@@ -144,13 +132,13 @@ sub printrow
 
 #-----------------------------------------------------------
 # This is used in a couple of places.  It returns a human-readable
-# string for a type.  If $t is undef, this returns "Unknown";
+# string for a type.  If $t is undef, this returns "unknown";
 # otherwise, this returns $t.
 
 sub typeStr
 {
     my $t = shift;
-    return !defined $t ? 'Unknown' : $t;
+    return !defined $t || $t eq '' ? 'unknown' : $t;
 }
 
 #-----------------------------------------------------------
@@ -189,7 +177,9 @@ sub typeRow
 
     return "      <tr bgcolor='#B0D8FC'>\n" .
            "        <td colspan='4'>\n" .
-           "          <a name='$ts'>$ts</a> Types\n" .
+           "          <a name='$ts'>" .
+           ($ts eq 'prefix' ? 'prefix (dimensionless)' : $ts) .
+           "</a>\n" .
            "        </td>\n" .
            "      </tr>\n";
 }

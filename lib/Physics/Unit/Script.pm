@@ -12,6 +12,7 @@ $VERSION = eval $VERSION;
 use base 'Exporter';
 our @EXPORT_OK = qw/run_script name_info/;
 
+
 sub run_script {
   my $opts = shift;
 
@@ -42,33 +43,24 @@ my %classes = (
 );
 
 sub name_info {
-  my $name = shift;
+    my $name = shift;
 
-  my $class = Physics::Unit::LookName($name);
-  my $string = '';
-  my $factor = '';
-
-  if ($class == 1) {
-    $string = 'NA';
-    $factor = 'NA';
-  } elsif ($class == 3) {
-    $string = GetTypeUnit($name)->ToString;
-  } else {
-    my $unit = GetUnit($name);
-    if ($class == 0 and defined $unit) {
-      $class = -1;
+    my $class = Physics::Unit::LookName($name);
+    my $n = GetUnit($name);
+    if ($class == 0 && defined $n) {
+        $class = -1;
     }
-    my $type = GetTypeUnit($unit->type);
-    $string = $unit->ToString;
-    $factor = $unit->factor . " " . $type->ToString;
-  }
 
-  print <<INFO;
-Name: $name
-Class: $classes{$class}
-Definition: $string
-Conversion: $factor
-INFO
+    print "Name:  $name\n" .
+          "Class:  $classes{$class}\n";
+
+    if ($class == -1 || $class == 2 || $class == 3) {
+        print "Type:  " . $n->type() . "\n" .
+              "Definition:  " . $n->def() . "\n" .
+              "Expanded:  " . $n->expanded() . "\n";
+    }
+  
+    print "\n";
 }
 
 1;

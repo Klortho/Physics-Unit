@@ -7,7 +7,8 @@ module.
 
 =head2 %reserved_word
 
-A list of reserved words in Unit expressions.
+A list of reserved words used in unit expressions.  For example, "per",
+"square", "cubic".
 
 =head2 %unit_by_name
 

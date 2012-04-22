@@ -30,8 +30,8 @@ physics-unit - Helper script for the Physics::Unit Perl module
 
 =head1 SYNOPSIS
 
-  physics-unit meters            # Request information about the unit 'meters'
-  physics-unit -e                # Export a list of units as HTML
+  physics-unit meters            # Returns information about the unit 'meters'
+  physics-unit -e                # Exports a list of units as HTML
   physics-unit --help/-h         # Shows a usage message
 
 =head1 DESCRIPTION
@@ -46,7 +46,7 @@ L<Physics::Unit> is a Perl module for managing units and unit conversions. The C
 
   -e
   --export
-      Export a complete list of known units and types as HTML documents. 
+      Export a complete list of known units and types as HTML documents.
       Prints the names of the created files to STDOUT, this allows:
         firefox `physics-unit -e`
 
