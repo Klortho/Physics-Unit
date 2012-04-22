@@ -1,16 +1,14 @@
 Physics/Unit version 0.04_02
 =========================
 
-This tarball includes four modules:
+This tarball includes the following modules
   Physics::Unit
   Physics::Unit::Scalar
-  Physics::Unit::ScalarSubtypes
+  Physics::Unit::Scalar::Implementation - pod docs
+  Physics::Unit::Script
+  Physics::Unit::Script::GenPages
   Physics::Unit::Vector
-
-It also includes two modules which only include documentation
-(implementation notes):
-  Physics::UnitImpl
-  Physics::Unit::ScalarImpl
+  Physics::Unit::Implementation - pod docs
 
 Objects of class Physics::Unit define units of measurement that correspond
 to physical quantities.  This module allows you to manipulate these units,

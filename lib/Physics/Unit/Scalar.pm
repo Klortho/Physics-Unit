@@ -547,8 +547,6 @@ Neither the original object nor the argument is changed.
 Returns a new Scalar object which is the reciprocal of the object.
 The original object is unchanged.
 
-The original object is unchanged.
-
 =head2 div()
 
 This returns a new Scalar object which is a quotient, i.e.
@@ -561,7 +559,7 @@ Neither the original object nor the argument is changed.
 
 =head1 AUTHOR
 
-Chris Maloney <Dude@chrismaloney.com>
+Chris Maloney <voldrani@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 

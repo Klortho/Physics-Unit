@@ -1988,7 +1988,7 @@ look like this:
 
 =head1 AUTHOR
 
-Written by Chris Maloney <Dude@chrismaloney.com>
+Written by Chris Maloney <voldrani@gmail.com>
 
 Formatted for distribution by Gene Boggs <cpan@ology.net>
 

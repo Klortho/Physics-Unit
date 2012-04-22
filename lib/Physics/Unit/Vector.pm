@@ -114,7 +114,7 @@ given Scalars of the same type, $sx, $sy, and $sz:
 
 =head1 AUTHOR
 
-Chris Maloney <Dude@chrismaloney.com>
+Chris Maloney <voldrani@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
