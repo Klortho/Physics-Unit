@@ -33,21 +33,26 @@ module is still in an embryonic stage.
 SEE ALSO
 
 The perldoc documentation for each of the above modules for more
-information.  Implementation notes are in UnitImpl.pm and
-Unit/ScalarImpl.pm.
+information.
 
-The examples in the eg/ directory.
+Example scripts in the eg/ directory.
 
 
 INSTALLATION
 
-To install this module type the following:
+To install this module, on Unix, use the following:
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+  perl Build.PL
+  ./Build
+  ./Build test
+  ./Build install
 
+On Windows, from a command window:
+
+  perl Build.PL
+  Build
+  Build test
+  Build install
 
 DEPENDENCIES
 
