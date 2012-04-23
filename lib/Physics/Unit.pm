@@ -191,12 +191,12 @@ InitUnit (
     ['angstrom', 'a', 'angstroms',],            '1e-10 m',          # exact
     ['cm',],                                    'centimeter',       # exact
     ['km',],                                    'kilometer',        # exact
+    ['nm',],                                    'nanometer',        # exact
 
-    ['pica',],                                  'in/6',    # exact, but see
-                                                           # below
+    ['pica',],                                  'in/6',    # exact, but see below
     ['point',],                                 'pica/12',          # exact
 
-    ['nautical-mile', 'nm', 'nauticalmiles',
+    ['nautical-mile', 'nmi', 'nauticalmiles',
      'nauticalmile', 'nautical-miles',],        '1852 m',           # exact
     ['astronomical-unit', 'au',],               '1.49598e11 m',
     ['light-year', 'ly', 'light-years',
