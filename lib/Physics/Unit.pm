@@ -1186,6 +1186,14 @@ Physics::Unit - Manipulate physics units and dimensions.
 
 =head1 SYNOPSIS
 
+FIXME:  Add some simple, practical unit conversions right up front.
+Also add some examples to show the flexibility of the unit expression
+grammar, and some examples that show arithmetic calculations.
+
+FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front, here, too, 
+since a lot of common operations will want to use that class.
+
+
   use Physics::Unit ':ALL';   # exports all util. function names
 
   # Define your own units
@@ -1202,51 +1210,39 @@ Physics::Unit - Manipulate physics units and dimensions.
 
 =head1 DESCRIPTION
 
-This module allows for the representation of physical quantities with
-encapsulated units.
+This module provides classes for the representation of physical units and
+quantities, as well as a large library of predefined Physics::Unit objects.  
+New units and quantities can be created with simple human-readable expressions
+(for example "cubic meters per second").  The resultant Perl objects can then be
+manipulated arithmetically, with the dimensionality correctly maintained.
 
-A Unit is defined by three things: a list of names, a conversion
-factor, and a dimensionality vector. From the dimensionality, a type
-can be derived (usually).
-
-There are two main types of Unit objects: named and anonymous. Named
-Unit objects are constant. Anonymous Unit objects, however, can
-dynamically change.
-
-Objects of class Unit define units of measurement that correspond to
-physical quantities. This module allows you to manipulate these
-units, generate new derived units from other units, and convert from
-one unit to another. Each unit is defined by a conversion factor and
-a dimensionality vector.
-
-The conversion factor is a floating point number that specifies how
-this unit relates to a reference unit of the same dimensionality.
-
-The dimensionality vector holds a list of integers - each of which
-records the power of a base unit in this unit.
-
-For example, consider the unit of speed, "miles per hour". This has a
-dimensionality of (Distance / Time), or of (Distance ^ 1 * Time ^ -1).
-So this unit's dimensionality vector has a 1 in the place
-corresponding to Distance, and a -1 in the place corresponding to
-Time.
-
-The reference unit for speed is "meters per second" (since meter is
-the base unit corresponding to Distance, and second is the base unit
-corresponding to Time). Therefore, the conversion factor for the unit
-"miles per hour" is 0.44704, since 1 mph equals 0.44704 meters / sec.
-
-Try this:
-
-  print "One mph is ", GetUnit('mph')->factor, " meters / sec\n";
-
-Units that have the same dimensionality can be compared, and
-converted from one to the other.
+A Physics::Unit object has a list of names, a dimensionality, and a magnitude.  
+For example, the SI unit of force is the newton.  In this module, it can be
+referred to with any of the names "newton", "nt", or "newtons".  It's dimensionality
+is that of a force:  mass X distance / time^2.  It's magnitude is 1000, which 
+expresses how large it is in terms of the base units gram, meter, and second.
 
 Units are created through the use of unit expressions, which allow
 you to combine previously defined named units in new and interesting
 ways. In the synopsis above, "furlong / fortnight" is a unit
 expression.
+
+Units that have the same dimensionality (for example acres and square kilometers)
+can be compared, and converted from one to the other.
+
+=head1 Guide to documentation
+
+FIXME:  Add brief descriptions of each of these.
+
+Physics::Unit 
+
+Physics::Unit::Scalar
+
+Physics::Unit::Vector
+
+Physics::Unit::Implementation
+
+Physics::Unit::Scalar::Implementation
 
 =head1 Types of Units
 

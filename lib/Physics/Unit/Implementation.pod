@@ -3,6 +3,35 @@
 Physics::Unit::Implementation - This page discusses implementation issues of the Physics/Unit.pm
 module.
 
+=head1 Overview
+
+Objects of class Unit define units of measurement that correspond to
+physical quantities. This module allows you to manipulate these
+units, generate new derived units from other units, and convert from
+one unit to another. Each unit is defined by a conversion factor and
+a dimensionality vector.
+
+The conversion factor is a floating point number that specifies how
+this unit relates to a reference unit of the same dimensionality.
+
+The dimensionality vector holds a list of integers - each of which
+records the power of a base unit in this unit.
+
+For example, consider the unit of speed, "miles per hour". This has a
+dimensionality of (Distance / Time), or of (Distance ^ 1 * Time ^ -1).
+So this unit's dimensionality vector has a 1 in the place
+corresponding to Distance, and a -1 in the place corresponding to
+Time.
+
+The reference unit for speed is "meters per second" (since meter is
+the base unit corresponding to Distance, and second is the base unit
+corresponding to Time). Therefore, the conversion factor for the unit
+"miles per hour" is 0.44704, since 1 mph equals 0.44704 meters / sec.
+
+Try this:
+
+  print "One mph is ", GetUnit('mph')->factor, " meters / sec\n";
+
 =head1 Data Structures
 
 =head2 %reserved_word
