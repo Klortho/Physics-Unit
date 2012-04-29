@@ -32,6 +32,30 @@ Try this:
 
   print "One mph is ", GetUnit('mph')->factor, " meters / sec\n";
 
+=head1 Package Variables
+
+=head2 $debug
+
+Turning this on enables copious debugging information. This is a
+package global, not a file-scoped lexical. So it can be turned on
+like this
+
+  BEGIN { $Physics::Unit::debug = 1; }
+
+  use Physics::Unit;
+
+=head2 $number_re
+
+This is the regular expression used to parse out a number.  It is
+here so that other modules can use it for convenience.
+
+A (correct) regular expression for a floating point number,
+optionally in exponent form. This is hard to come by.
+
+This variable may also be imported for ease of use.
+
+
+
 =head1 Data Structures
 
 =head2 %reserved_word
@@ -148,8 +172,7 @@ the unit '3 meters' would be converted to something like
 Complain if this unit has a name.  This is used by all the methods
 that modify the value of the unit.
 
-
-=head1 The Parser
+=head1 The Parser / Unit Expression Grammar
 
 Below are listed the private parser functions.
 See also the grammar description in the Unit.pm documentation.
@@ -175,7 +198,6 @@ Examples of terms (the following lines each contain one term):
   3pi radians
   3e+4 globules
 
-
 =head2 Factor()
 
   factor : prim
@@ -185,7 +207,6 @@ Note that a primary can be an integer, of course, so factors can
 look like this:
 
   meter ** 3 ^ 5    # note, '**' and '^' are synonymous
-
 
 =head2 prim()
 

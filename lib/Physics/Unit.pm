@@ -1193,6 +1193,8 @@ grammar, and some examples that show arithmetic calculations.
 FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front, here, too, 
 since a lot of common operations will want to use that class.
 
+FIXME:  Decide on, and stick with, a style to use for unit names and expressions
+that appear in the text.
 
   use Physics::Unit ':ALL';   # exports all util. function names
 
@@ -1236,53 +1238,47 @@ FIXME:  Add brief descriptions of each of these.
 
 Physics::Unit 
 
-Physics::Unit::Scalar
+L<Physics::Unit::Scalar|Physics::Unit::Scalar>
 
-Physics::Unit::Vector
+L<Physics::Unit::Vector|Physics::Unit::Vector>
 
-Physics::Unit::Implementation
+L<Physics::Unit::Implementation|Physics::Unit::Implementation>
 
-Physics::Unit::Scalar::Implementation
+L<Physics::Unit::Scalar::Implementation|Physics::Unit::Scalar::Implementation>
 
 =head1 Types of Units
 
 A Unit can have one or more names associated with it, or it can be
-unnamed (anonymous).
-
-Named units are constant. This ensures that expressions used to
-derive other units will remain consistent. For example, consider the
-expression "miles per hour", which uses the unit name "hour" to
-create a new, derived unit. It is possible that the same expression
-is used multiple times during the life of a program to create new
-Unit objects. If the unit refered to by the name "hour" was allowed
-to change, then a new, derived unit could possibly be different from
-another unit derived with the same expression.
-
+unnamed (anonymous).  Named units are immutable. This ensures that 
+expressions used to derive other units will remain consistent. 
 Anonymous units, however, can be changed.
 
-Among named Units, there are three types: prefixes, base units, and
-derived units.
+Among named Units, there are three types: prefixes (for example,
+"kilo", "mega", etc.), base units, and derived units.
 
-A prefix Unit is a special case Unit object that:
-
-  * is dimensionless
-  * has only one name
-
-A prefix name can be used in unit expressions in a special manner.
-They can be used as prefixes to other unit names, with no intervening
-whitespace. For example, "kilo" is a commonly used prefix. It can
-appear as in the following unit expressions:
-
-  kilogram
-  kilomegameter
-
-Prefixes are described more fully in the unit expressions section
-below.
+A prefix Unit is a special case Unit object that is dimensionless and
+has only one name.  A prefix can be used in unit expressions, as the name
+suggests, as a prefixes to another unit name, with no intervening
+whitespace. For example, "kilogram" is a unit expression that uses the 
+prefix "kilo".  For more information about how to use prefixes, see
+L</"Unit Expressions">, below.
 
 A base unit is one that defines a new base dimension. For example,
 the unit meter is a base unit; it defines the dimension for Distance.
+The predefined unit library defines nine base units, for each of nine
+fundamental quantities:
 
-A derived unit is one that is built up from other named units from a
+    Distance     meter
+    Mass         gram
+    Time         second
+    Temperature  kelvin
+    Current      ampere
+    Substance    mole
+    Luminosity   candle
+    Money        us-dollar
+    Data         bit
+
+A derived unit is one that is built up from other named units, using a
 unit expression.
 
 The terms base dimension and derived dimension (or derived type) are
@@ -1296,67 +1292,34 @@ Distance / Time.
 Unit names are not allowed to contain whitespace, or any of the
 characters ^, *, /, (, ). Case is not significant. Also, they may not
 begin with any sequence of characters that could be interpreted as a
-decimal number. Furthermore, these reserved words are not allowed as
+decimal number. Furthermore, the following reserved words are not allowed as
 unit names: per, square, sq, cubic, squared, or cubed. Other than
 that, pretty much anything goes.
-
-So, for example, each of these is a valid unit name:
-
-  blather
-  blather-hour
-  ..splather!min_glub
-
-But these are not:
-
-  ^glub_glub   # contains invalid character ^
-  .1foo        # '.1' looks a lot like a number
-  123abc       # so does '123'
 
 =head1 Unit Expressions
 
 Unit Expressions allow you to create new unit objects from the set of
 existing named units. Some examples of unit expressions are:
 
-  megaparsec / femtosecond
-  kg / feet^2 sec
-  square millimeter
-  kilogram meters per second squared
+    megaparsec / femtosecond
+    kg / feet^2 sec
+    square millimeter
+    kilogram meters per second squared
 
-The explicit grammar for unit expressions is defined in the
-implementation page.
+The exact grammar for unit expressions is specified in the implementation page;
+the following is an overview.
 
 The operators allowed in unit expressions are, in order from high to
 low precedence:
 
-prefix
+=over 4
+
+=item prefix
 
 Any prefix that is attached to a unit name is applied to that unit
 immediately (highest precedence). Note that if there is whitespace
 between the prefix and the unit name, this would be the space
 operator, which is not the same (see below).
-
-  square, sq, or cubic
-
-square or cube the next thing on the line
-
-  squared or cubed
-
-square or cube the previous thing on the line
-
-  ** or ^
-
-exponentiation (must be to an integral power)
-
-  space
-
-any amount of whitespace between units is considered a multiplication
-
-  *, /, or per
-
-multiplication or division
-
-Parentheses can be used to override the precedence of any of the
-operators.
 
 Prefixes are special case units, whose names can be attached to
 beginning of other units, with no intervening whitespace. The Unit
@@ -1366,36 +1329,55 @@ see the Units by Type page.
 The prefixes are allowed before units, or by themselves. Thus, these
 are equivalent:
 
-  megaparsec
-  mega parsec
-  kilo kilo parsec
-  kilo**2 parsec
-  square kilo parsec
+    megameter
+    mega meter
 
-Note in the last example that square applies only to kilo, and not to
-parsec. That's because the square operator has higher precedence than
-the space.
+But note that there is a subtle difference between these, having to do 
+with the precedence of the prefix operation vs. the space operator.  So
+"C<square megameter>" is a unit of area, but "C<square mega meter>" is a unit of 
+distance (equal to 10^12 meters).
 
-Note, however, that the space operator has higher precedence than
-'*', '/', or 'per'. This means that units separated by only
-whitespace in the denominator of an expression do not need to be
-enclosed in parentheses. Thus
+=item square, sq, or cubic
 
-  meters / sec sec
+Square or cube the next thing on the line
 
-is a unit of acceleration, but
+=item squared or cubed
 
-  meters / sec*sec
+Square or cube the previous thing on the line.
 
-is not. The latter is equivalent to just 'meters'.
+=item C<< ^ >> or C<< ** >> 
 
-=head1 Predefined Units
+Exponentiation (must be to an integral power)
+
+=item space
+
+Any amount of whitespace between units is considered a multiplication
+
+=item E<42>, /, or per
+
+Multiplication or division
+
+=item Parentheses 
+
+Can be used to override the precedence of any of the operators.
+
+=back
+
+For the most part, this precedence order lets you write unit expressions
+in a natural way.  For example, note that the space operator has higher precedence 
+than '*', '/', or 'per'.  Thus "C<meters / sec sec>" is a unit of acceleration,
+but note that "C<meters / sec*sec>" is not.  The latter
+is equivalent to just 'meters'.
+
+=head1 Predefined Unit Library
 
 A rather complete set of units is pre-defined in the library, so it
 will probably be rare that you'll need to define your own. See the
 units by name page, or the units by type page for a complete list.
+(FIXME:  See issue #8 -- I'd like to integrate these pages (this page?)
+into the docs, and link to them here).
 
-A pound is a unit of force. I was very much tempted to make it a unit
+A C<pound> is a unit of force. I was very much tempted to make it a unit
 of mass, since that is much more often the way it is used, but I have
 a feeling I would have had to take more guff for that than I'm
 prepared to. The everyday pound, then, is named 'pound-mass', 'lbm',
@@ -1423,8 +1405,6 @@ international agreement. Thus, they are:
   * h   - Planck constant
   * Na  - Avogadro constant
 
-
-
 =head1 Name Conflicts and Resolutions
 
 A few unit names and abbreviations had to be changed in order to avoid name
@@ -1434,51 +1414,18 @@ Elementary charge - abbreviated 'eq' instead of 'e'
 
 Earth gravity - abbreviated 'g0' instead of 'g'
 
-point - there are several definitions for this term:
-  * typography -- point
-      * I define it to be exactly 1/72 of an inch
-      * my dictionary (Webster's II New College Dictionary) defines it as
-        0.01384 inch, or 72.2543 points / inch.
-      * The Convert::Units::Base module sez that it's commonly defined as
-        0.01383 inch, or 72.3066 points / inch.
-      * The Postscript documentation defines it as exactly 1/72 in.
-      * The Convert::Units::Base module documentation also sez
-        "Other type systems consider it 1/72.27 inch, or 0.01383 inches,
-        or 0.0148 inches.  Outside of that context, a point may be 1/120
-        or 1/144 inch."
+point - there are several definitions for this term.  In our library,
+we define it to be exactly 1/72 of an inch.
 
-  * a unit of academic classwork, usually equal to to one hour of class work
-    per week during one semester
-  * 11 deg., 15 min. between any two adjacent markings on a mariner's
-    compass
-  * a unit of scoring in any of a very many games
-  * a unit equal to one dollar, used to quote the current prices of
-    commodoties or stocks
-  * a unit equal to one percentage point, used in reference to ownership
-  * 2 milligrams (or 0.01 carat) used by jewelers -- j-point
+C<minute> is defined as a unit of time.  For the unit of arc, use
+C<arcminute>.  Same for C<second> and C<arcsecond>.
 
-minute -
-  * duration -- minute
-  * arc -- arcminute
+C<pound> - As described above, this is defined as a unit of force, with
+synonyms C<pound-force>, C<pounds-force>, C<pound-weight>, and C<lbf>.
+For the unit of mass, use C<pound-mass>, C<pounds-mass>, or C<lbm>.
 
-second -
-  * duration -- second
-  * arc -- arcsecond
-
-pound -
-  * as a unit of force -- pound, pound-force, pounds-force, pound-weight, lbf
-  * as a unit of mass -- pound-mass, pounds-mass, lbm
-  * another unit of mass -- troy-pound
-
-ounce -
-  * as a unit of mass -- ounce, ounce-force, ozf
-  * as a unit of volume -- fluid-ounce, floz, fluidounce
-  * another unit of mass - troy-ounce
-
-gram -
-  * as a unit of mass - gram
-  * as a unit of force -- gram-weight, gram-force
-
+C<ounce> - As a unit of mass, use C<ounce>, C<ounce-force>, or C<ozf>.
+For the unit of volume, use C<fluid-ounce>, C<floz>, or C<fluidounce>.
 
 =head1 Export Options
 
