@@ -32,7 +32,7 @@ $VERSION = eval $VERSION;
 # This is the regular expression used to parse out a number.  It
 # is here so that other modules can use it for convenience.
 
-$number_re = '([-+]?((\d+\.?\d*)|(\.\d+))(E[-+]?((\d+\.?\d*)|(\.\d+)))?)';
+$number_re = '([-+]?((\d+\.?\d*)|(\.\d+))([eE][-+]?((\d+\.?\d*)|(\.\d+)))?)';
 
 # The value of this hash is a string representing the token returned
 # when this word is seen
