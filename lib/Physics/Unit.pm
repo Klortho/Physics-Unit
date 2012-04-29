@@ -437,6 +437,7 @@ InitTypes (
     'Inductance'         => 'henry',
     'Magnetic_flux'      => 'weber',
     'Magnetic_field'     => 'tesla',
+    'Momentum'           => 'kg m/s',
     'Force'              => 'newton',
     'Area'               => 'are',
     'Volume'             => 'liter',
