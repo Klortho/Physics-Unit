@@ -1453,12 +1453,11 @@ Or, you can just get specific ones. For example:
 
 =head1 FUNCTIONS
 
-=head2 InitBaseUnit()
+=over 
 
-  Physics::Unit::InitBaseUnit( type, name-list,
-                               type, name-list, ... );
+=item C<InitBaseUnit($type1, $nameList1, $type2, $nameList2, ...)>
 
-InitBaseUnit is used to define any number of new, fundamental,
+This function is used to define any number of new, fundamental,
 independent dimensional quantities.  Each such quantity is represented
 by a Unit object, which must have at least one name.  From these base
 units, all the units in the system are derived.
@@ -1482,40 +1481,31 @@ consists of a type name followed by a reference to an array. The
 array consists of a list of names which can be used to reference the
 unit. For example:
 
-  InitBaseUnit('Beauty' => ['sonja', 'sonjas', 'smw']);
+  InitBaseUnit('Beauty' => ['sonja', 'sonjas', 'yh']);
 
 This defines a new basic physical type, called Beauty. This also
 causes the creation of a single new Unit object, which has three
-names: sonja, sonjas, and smw. The type Beauty is refered to as a
+names: sonja, sonjas, and yh. The type Beauty is refered to as a
 base type. The Unit sonja is refered to as the base unit
 corresponding to the type Beauty.
 
 After defining a new base unit and type, you can then create other
 units derived from this unit, and other types derived from this type.
 
-=head2 InitPrefix()
+=item C<InitPrefix($name1, $number1, $name2, $number2, ...)>
 
-  Physics::Unit::InitPrefix( name, number,
-                             name, number, ... );
-
-This function is used to define strings that can be used to prefix
-any other unit name.  As with InitBaseUnit, the library is initialized
-to know about a fair set of prefixes, and more can be added at
-run-time.
-
-If you desire to create a prefix at run-time, call InitPrefix with a
-list of name-value pairs, for example:
+This function defines new prefixes.  For example:
 
   InitPrefix('gonzo' => 1e100, 'piccolo' => 1e-100);
 
 From then on, you can use those prefixes to define new units, as in:
 
-  $beauty_rate = new Physics::Unit('5 piccolosonja / hour');
+  $beautification_rate = new Physics::Unit('5 piccolosonja / hour');
 
-=head2 InitUnit()
+=item C<InitUnit()>
 
-  Physics::Unit::InitUnit( name-list, unit-def,
-                           name-list, unit-def, ... );
+  Physics::Unit::InitUnit( name-list, I<unit-def>,
+                           name-list, I<unit-def>, ... );
 
 This function creates one or more new named Units.  This is called at
 compile time to initialize the module with all the predefined units.
@@ -1524,112 +1514,70 @@ called by users at runtime, to expand the unit system. For example:
 
   InitUnit( ['chris', 'cfm'] => '3 piccolosonjas' );
 
-creates another unit of type Beauty equal to 3 * 10-100 sonjas.
+creates another unit of type Beauty equal to 3e-100 sonjas.
 
-Both this utility function and the new class method can be used to
-create new, named Units. There are minor differences between these
-two. The new method only allows you to create one unit at a time,
-whereas the InitUnit function can be used to create a large set of
-units with one call. The other difference is that units created with
-InitUnit must have a name, whereas new can be used to create anonymous
+Both this utility function and the C<new> class method can be used to
+create new, named Unit objects. Units created with
+InitUnit must have a name, however, whereas C<new> can be used to create anonymous
 Unit objects.
 
-In this function and in others, wherever an argument is specified as
-unit-def, you can use either a Unit object, a single unit name, or a
-unit expression. So, for example, these are the same:
+In this function and in others, an argument that specifies a unit can be given
+either as Unit object, a single unit name, or a unit expression. 
+So, for example, these are the same:
 
   InitUnit( ['mycron'], '3600 sec' );
   InitUnit( ['mycron'], 'hour' );
-  $h = GetUnit('hour');  InitUnit( ['mycron'], $h );
+  InitUnit( ['mycron'], GetUnit('hour') );
 
-creates a new unit named mycron which is the same as one hour.
-
-=head2 InitTypes()
-
-  Physics::Unit::InitTypes( type-name, unit-def,
-                            type-name, unit-def, ... );
+=item C<InitTypes($typeName1, $unit1, $typeName2, $unit2, ...)>
 
 Use this function to define derived types. For example:
 
-  InitTypes( 'Aging' => 'chris / year' );
+  InitTypes( 'Aging' => 'sonja / year' );
 
-might describe the loss of beauty with time.
+defines a new type that for a rate of change of Beauty with time.
 
 This function associates a type name with a specific dimensionality.
-The factor of the unit is not used. I.e., in the above example, Aging
-is associated with ( Beauty / Time ). The factor of the unit
-'chris / year' is not used.
+The magnitude of the unit is not used.
 
-The unit-def argument can be a single unit name, a unit expression,
-or a Unit object.
+=item C<GetUnit($unit)>
 
-=head2 GetUnit()
+Returns a Unit object associated with the the argument passed in. The
+argument can either be a Unit object (in which case it is simply returned),
+a unit name (in which case the name is looked up and a reference to the 
+corresponding Unit is returns), or a unit expression (in which case a new
+Unit object is created and a reference to it is returned).
 
-  $u = Physics::Unit::GetUnit( unit-def );
-
-Returns a unit associated with the the argument passed in. The
-argument can either be a name, a unit expression, or a Unit object.
-
-If the argument is a Unit object, it is simply returned. If the
-argument is a simple unit name, then this returns a reference to the
-named unit.
-
-If the argument cannot be found as a simple unit name, then this
-method attempts to evaluate it as an expression. If it is successful,
-it will create a new, anonymous Unit object and return a reference to
-it.
-
-For example:
-
-  # This returns a reference to a pre-defined, named unit:
-  $u = GetUnit('gram');
-
-  # This creates a new, anonymous unit and returns a reference to it:
-  $u = GetUnit('km / hour');
-
-=head2 ListUnits()
-
-  @l = Physics::Unit::ListUnits;
+=item C<ListUnits()>
 
 Returns a list of all unit names known, sorted alphabetically.
 
-=head2 ListTypes()
-
-  @l = Physics::Unit::ListTypes;
+=item C<ListTypes()>
 
 Returns a list of all the quantity types known to the library, sorted
 alphabetically.
 
-=head2 NumBases()
-
-  $n = Physics::Unit::NumBases;
+=item C<NumBases()>
 
 Returns the number of base dimension units.
 
-=head2 GetTypeUnit()
-
-  $u = Physics::Unit::GetTypeUnit( type-name );
+=item C<GetTypeUnit()>
 
 Returns the Unit object corresponding to a given type.
 
+=back
 
-=head1 PUBLIC METHODS
+=head1 METHODS
 
-=head2 new()
+=over
 
-  $u1 = new Physics::Unit( unit-def [, name, name, ... ] );
-  $u2 = $u1->new( [name, name, ... ] );
+=item C<new Physics::Unit( $unit [, $name1, $name2, ... ] )>
 
-This method creates a new Unit object. The names are optional. (Note:
-the square brackets above are used to indicate that the name list is
-optional, not that the argument is a reference to an anonymous array.
-See the examples below.)
+=item C<new( [$name1, $name2, ... ] )>
 
-If names are given, then the new Unit will be given those names, and
-that object will thereafter be constant.
-
-If more than one name is given, the first is the primary name. The
-primary name is retrieved whenever the name method is called.
+This method creates a new Unit object. The names are optional. 
+If more than one name is given, the first is the "primary name",
+which means it is the one returned by the name() method.
 
 If a unit has a name or names, those names must be different than
 every other unit name known to the library. See the Unit by Names
@@ -1641,23 +1589,10 @@ utility function.
 
 Examples:
 
-  # Create a new, anonymous unit:
-  $u = new Physics::Unit ('3 pi sonjas per s');
-
   # Create a new, named unit:
-  $u = new Physics::Unit ('3 pi sonjas per s', 'bloom');
+  $u = new Physics::Unit ('3 pi furlongs', 'gorkon');
 
-  # Or, create a new unit with a list of names:
-  $u  = new Physics::Unit ('3 pi sonjas per s', 'b', 'blooms', 'blm');
-  $n = $u->name;   # returns 'b'
-
-  @@ - add a description, and an example of the use of this as an object
-       method
-
-=head2 type()
-
-  $t = $u->type;
-  $u->type( type-name );
+=item C<type([$typeName])>
 
 Get or set this unit's type.
 
@@ -1684,203 +1619,153 @@ When this method is called to set the unit's type, only one type
 string argument is allowed, and it must be a predefined type name
 (see InitTypes above).
 
-Once a single type has been associated with a unit, then that will
-remain that unit's type for the rest of the program, unless it is
-re-set again.
-
 This method returns one of:
 
-  undef
+=over
+
+=item undef
 
 no type was found to match the unit's dimensionality
 
-  'prefix'
+=item 'prefix'
 
 in the special case where the unit is a named prefix
 
-  type_name
+=item a type name
 
-the prototype unit for type_name matches the unit's dimensionality
-(see InitTypes above)
+the prototype unit for this type name matches the unit's dimensionality
 
-  ref to an array of type_name's
+=item an array of type names
 
 more than one type was found to match the unit's dimensionality
 
-Some examples may perhaps make this clear:
+=back
+
+Some examples:
 
   $u1 = new Physics::Unit('kg m^2/s^2');
-  $t = $u1->type;       #  $t == ['Energy', 'Torque']
+  $t = $u1->type;       #  ['Energy', 'Torque']
 
   $u1->type('Energy');  #  This establishes the type once and for all
-  $t = $u1->type;       #  $t == 'Energy'
+  $t = $u1->type;       #  'Energy'
 
-  # Now create another Unit object from the same definition
-  $u2 = new Physics::Unit('kg m^2/s^2');
-
-  # This is a brand-new object, so the explicit type is unknown, as before:
-  $t = $u2->type;    # $t == ['Energy', 'Torque']
-
-  # But if we use a predefined, named unit, we get a single type:
+  # Create a new copy of a predefined, typed unit:
   $u3 = GetUnit('joule')->new;    # *not*  Physics::Unit->new('joule');
-  $t = $u3->type;    # $t == 'Energy'
+  $t = $u3->type;    # 'Energy'
 
-=head2 name()
+FIXME:  Why not Physics::Unit->new('joule');?
 
-  $n = $u->name;
+=item C<name()>
 
 Returns the primary name of the unit. If this unit has no names, then
 this method returns undef.
 
-=head2 abbr()
-
-  $a = $u->abbr;
+=item C<abbr()>
 
 Returns the shortest name of the unit. If this unit has no names,
 this method will return the undef.
 
-=head2 names()
-
-  @a = $u->names;
+=item C<names()>
 
 Returns a list of names that can be used to reference the unit.
 Returns undef if the unit is unnamed.
 
-Be aware: this might be an empty list - whereas the name() method
-above will always return something meaningful.
+FIXME:  Does this really return undef, or the empty list?
 
-=head2 def()
-
-  $s = $u->def;
+=item C<def()>
 
 Returns the string that was used to define this unit.  Note that if
 the unit has been manipulated with any of the arithmetic methods,
 then the def method will return undef, since the definition string is
 no longer a valid definition of the unit.
 
-=head2 expanded()
-
-  $s = $u->expanded;
+=item C<expanded()>
 
 Produces a string representation of the unit, in terms of the base
-units (see InitBaseUnit above).
+units.  For example:
 
-For example:
+  GetUnit('calorie')->expanded, "\n";  # "4184 m^2 gm s^-2"
 
-  print GetUnit('calorie')->expanded, "\n";
+=item C<ToString()>
 
-produces
+There are several ways to serialize a Unit object to a string.
+This method is designed to give you what you usually want, and to always
+give something meaningful.
 
-  4184 m^2 gm s^-2
-
-=head2 ToString()
-
-  $s = $u->ToString;
-
-There are several ways to have a Unit object print itself to a string.
-This method is designed to give you what you usually want, and to be
-guaranteed to always print out something meaningful.
-
-If the object is named, this does the same as the name method above.
+If the object is named, this does the same as the name() method above.
 Otherwise, if the object's definition string is still valid, this
-does the same as the def method above. Otherwise, this does the same
-thing as the expanded method.
+does the same as the def() method above. Otherwise, this does the same
+thing as the expanded() method.
 
-=head2 factor()
+=item C<factor([$newValue])>
 
-  $f = $u->factor;
-  $u->factor(newvalue);    # $u must be unnamed
-
-Get or set the unit's conversion factor. If this is used to set a
+Get or set the unit's conversion factor (magnitude). If this is used to set a
 Unit's factor, then the Unit object must be anonymous.
 
-=head2 convert()
-
-  $f = $u->convert( unit-def );
+=item C<convert($unit)>
 
 Returns the number which converts this unit to another. The types of
 the units must match. For example:
 
-  $mile = GetUnit('mile');
-  $foot = GetUnit('foot');
-  $c = $mile->convert($foot);     # returns 5280
+  GetUnit('mile')->convert(GetUnit('foot'));  # 5280
 
+=item C<times($unit)>
 
-=head2 times()
+Multiply this object by the given unit.  This will, in general, change a
+unit's dimensionality, and hence its type.
 
-  $u->times( unit-def );
+=item C<recip()>
 
-$u is multiplied by either a Unit or a number.  $u must be anonymous.
+Replaced a unit with its reciprocal.  This will, in general, change a
+unit's dimensionality, and hence its type.
 
-=head2 recip()
+=item C<divide($unit)>
 
-  $u->recip;
-
-$u is replaced with its reciprocal.  $u must be anonymous.
-
-=head2 divide()
-
-  $u->divide( unit-def );
-
-$u is divided by either a Unit or a number, and the result replaces $u.
-$u must be anonymous.
+Divide this object by the given unit.  This will, in general, change a
+unit's dimensionality, and hence its type.
 
 For example:
 
   $u = new Physics::Unit('36 m^2');
-  $u->divide('3 meters');    # $u is now '12 m'
-  $u->divide(3);             # $u is now '4 m'
-  $u->divide( new Physics::Unit('.5 sec') );  # $u is now '8 m/s'
+  $u->divide('3 meters');   # now '12 m'
+  $u->divide(3);            # now '4 m'
+  $u->divide('.5 sec');     # now '8 m/s'
 
-=head2 power()
+=item C<power($i)>
 
-  $u->power( integer );
+Raises a unit to an integral power.   This will, in general, change a
+unit's dimensionality, and hence its type.
 
-Raises a unit to an integral power.  $u must be anonymous.
+=item C<add($unit)>
 
-=head2 add()
+Add $unit, which must be of the same type.
 
-  $u->add( unit );   # unit types must match
+=item C<neg()>
 
-unit is added to $u.  $u and unit must be of the same type.
-$u must be anonymous.
+Replaced with the arithmetic negative. 
 
-=head2 neg()
+=item C<subtract($unit)>
 
-  $u->neg;
+Subtract $unit, which must be of the same type.
 
-$u is replaced with its arithmetic negative.  $u must be anonymous.
+=item C<copy()>
 
-=head2 subtract()
-
-  $u->subtract( unit-def );   # unit types must match
-
-unit is subtracted from $u.  $u and unit must be of the same type.
-$u must be anonymous.
-
-=head2 copy()
-
-  $n = $u->copy;
-
-This creates a copy of an existing unit. It doesn't copy the names,
-however.  So you are free to modify the copy (while modification of
-named units is verboten).
-
-If the type of the existing unit is well-defined, then it, also, is
-copied.
+This creates a copy of an existing unit, without copying the names.  
+So you are free to modify the copy (while modification of
+named units is verboten).  If the type of the existing unit is 
+well-defined, then it, also, is copied.
 
 This is the same as the new method, when new is called as an object
 method with no names.
 
-=head2 equal()
+=item C<equal($unit)>
 
-  $u1->equal( unit-def );
-  Physics::Unit->equal( unit-def, unit-def );
+=item C<Physics::Unit->equal($unit1, $unit2);>
 
 This returns 1 if the two unit objects have the same type and the
 same conversion factor.
 
-
+=back
 
 =head1 AUTHOR
 
