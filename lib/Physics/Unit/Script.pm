@@ -46,20 +46,23 @@ sub name_info {
     my $name = shift;
 
     my $class = Physics::Unit::LookName($name);
-    my $n = GetUnit($name);
-    if ($class == 0 && defined $n) {
-        $class = -1;
-    }
+    print "Name:  $name\n";
 
-    print "Name:  $name\n" .
-          "Class:  $classes{$class}\n";
-
-    if ($class == -1 || $class == 2 || $class == 3) {
-        print "Type:  " . $n->type() . "\n" .
-              "Definition:  " . $n->def() . "\n" .
-              "Expanded:  " . $n->expanded() . "\n";
+    my $u;
+    if ($class == 0) {
+        $u = GetUnit($name);
+        if (defined $u) { $class = -1; }
     }
-  
+    elsif ($class == 2) {
+        $u = GetUnit($name);
+    }
+    print "Class:  $classes{$class}\n";
+
+    if ($class == -1 || $class == 2) {
+        print "Type:  " . $u->type() . "\n" .
+              "Definition:  " . $u->def() . "\n" .
+              "Expanded:  " . $u->expanded() . "\n";
+    }
     print "\n";
 }
 
