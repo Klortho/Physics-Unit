@@ -21,17 +21,17 @@ print "One mph is ", GetUnit('mph')->factor, " meters / sec\n";
 
 #---------------------
 
-InitBaseUnit('Beauty' => ['sarah', 'sarahs', 'smw']);
+InitBaseUnit('Beauty' => ['sonja', 'sonjas', 'smw']);
 
 #---------------------
 
 InitPrefix('gonzo' => 1e100, 'piccolo' => 1e-100);
 
-$beauty_rate = new Physics::Unit('5 piccolosarah / hour');
+$beauty_rate = new Physics::Unit('5 piccolosonja / hour');
 
 #---------------------
 
-InitUnit( ['chris', 'cfm'] => '3 piccolosarahs' );
+InitUnit( ['chris', 'cfm'] => '3 piccolosonjas' );
 
 #---------------------
 
@@ -40,13 +40,13 @@ InitTypes( 'Aging' => 'chris / year' );
 #---------------------
 
 # Create a new, anonymous unit:
-$u = new Physics::Unit ('3 pi sarahs per s');
+$u = new Physics::Unit ('3 pi sonjas per s');
 
 # Create a new, named unit:
-$u = new Physics::Unit ('3 pi sarahs per s', 'bloom');
+$u = new Physics::Unit ('3 pi sonjas per s', 'bloom');
 
 # Create a new unit with a list of names:
-$u  = new Physics::Unit ('3 pi sarahs per s', 'b', 'blooms', 'blm');
+$u  = new Physics::Unit ('3 pi sonjas per s', 'b', 'blooms', 'blm');
 $n = $u->name;    # returns 'b'
 
 #---------------------

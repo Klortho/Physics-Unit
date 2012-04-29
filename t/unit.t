@@ -52,22 +52,22 @@ ok($u->equal(GetUnit('square kilo parsec')));
 
 #---------------------
 
-InitBaseUnit('Beauty' => ['sarah', 'sarahs', 'smw']);
-is(GetUnit('sarah')->type, 'Beauty', 'Sarah is beautiful');
+InitBaseUnit('Beauty' => ['sonja', 'sonjas', 'smw']);
+is(GetUnit('sonja')->type, 'Beauty', 'Sonja is beautiful');
 
 #---------------------
 
 InitPrefix('gonzo' => 1e100, 'piccolo' => 1e-100);
 is(GetUnit('gonzo')->type, 'prefix', 'Gonzo');
 
-$beauty_rate = new Physics::Unit('5 piccolosarah / hour');
+$beauty_rate = new Physics::Unit('5 piccolosonja / hour');
 ok(!defined $beauty_rate->type, 'beauty_rate type');
 
 is($beauty_rate->factor, 5 * 1e-100 / 3600, 'beauty_rate->factor');
 
 #---------------------
 
-InitUnit( ['chris', 'cfm'] => '3 piccolosarahs' );
+InitUnit( ['chris', 'cfm'] => '3 piccolosonjas' );
 like(GetUnit('cfm')->expanded, '/^3\.?e-100 smw$/', 'not so beautiful');
 
 #---------------------
@@ -83,22 +83,22 @@ ok(Physics::Unit->equal('mycron1', 'mycron3'), 'mycron1 == mycron3');
 #---------------------
 
 InitTypes( 'Aging' => 'chris / year' );
-$uname = 'Sarah per week';
+$uname = 'sonja per week';
 $u = GetUnit($uname);
 is($u->type, 'Aging', 'Aging');
 
 #---------------------
 
 # Create a new, anonymous unit:
-$u = new Physics::Unit ('3 pi sarahs per s');
+$u = new Physics::Unit ('3 pi sonjas per s');
 ok(!defined $u->name, 'no name');
 
 # Create a new, named unit:
-$u = new Physics::Unit ('3 pi sarahs per s', 'bloom');
+$u = new Physics::Unit ('3 pi sonjas per s', 'bloom');
 is($u->name, 'bloom', 'bloom');
 
 # Create a new unit with a list of names:
-$u  = new Physics::Unit ('3 pi sarahs per s', 'b', 'blooms', 'blm');
+$u  = new Physics::Unit ('3 pi sonjas per s', 'b', 'blooms', 'blm');
 is($u->name, 'b', 'primary name');
 
 #---------------------

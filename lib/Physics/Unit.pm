@@ -1232,7 +1232,7 @@ expression.
 Units that have the same dimensionality (for example acres and square kilometers)
 can be compared, and converted from one to the other.
 
-=head1 Guide to documentation
+=head1 GUIDE TO DOCUMENTATION
 
 FIXME:  Add brief descriptions of each of these.
 
@@ -1246,7 +1246,7 @@ L<Physics::Unit::Implementation|Physics::Unit::Implementation>
 
 L<Physics::Unit::Scalar::Implementation|Physics::Unit::Scalar::Implementation>
 
-=head1 Types of Units
+=head1 TYPES OF UNITS
 
 A Unit can have one or more names associated with it, or it can be
 unnamed (anonymous).  Named units are immutable. This ensures that 
@@ -1266,17 +1266,7 @@ L</"Unit Expressions">, below.
 A base unit is one that defines a new base dimension. For example,
 the unit meter is a base unit; it defines the dimension for Distance.
 The predefined unit library defines nine base units, for each of nine
-fundamental quantities:
-
-    Distance     meter
-    Mass         gram
-    Time         second
-    Temperature  kelvin
-    Current      ampere
-    Substance    mole
-    Luminosity   candle
-    Money        us-dollar
-    Data         bit
+fundamental quantities.  See L</InitBaseUnit()> below for a list.
 
 A derived unit is one that is built up from other named units, using a
 unit expression.
@@ -1287,7 +1277,7 @@ derived from any other set of dimensional quantities. Speed, however,
 is a derived dimension (or derived type), corresponding to
 Distance / Time.
 
-=head1 Unit Names
+=head1 UNIT NAMES
 
 Unit names are not allowed to contain whitespace, or any of the
 characters ^, *, /, (, ). Case is not significant. Also, they may not
@@ -1296,7 +1286,7 @@ decimal number. Furthermore, the following reserved words are not allowed as
 unit names: per, square, sq, cubic, squared, or cubed. Other than
 that, pretty much anything goes.
 
-=head1 Unit Expressions
+=head1 UNIT EXPRESSIONS
 
 Unit Expressions allow you to create new unit objects from the set of
 existing named units. Some examples of unit expressions are:
@@ -1305,9 +1295,6 @@ existing named units. Some examples of unit expressions are:
     kg / feet^2 sec
     square millimeter
     kilogram meters per second squared
-
-The exact grammar for unit expressions is specified in the implementation page;
-the following is an overview.
 
 The operators allowed in unit expressions are, in order from high to
 low precedence:
@@ -1369,7 +1356,33 @@ than '*', '/', or 'per'.  Thus "C<meters / sec sec>" is a unit of acceleration,
 but note that "C<meters / sec*sec>" is not.  The latter
 is equivalent to just 'meters'.
 
-=head1 Predefined Unit Library
+=head2 Expression Grammar
+
+  expr : term
+       | term '/' expr
+       | term '*' expr
+       | term 'per' expr
+
+  term : factor
+       | term factor
+
+A term is any number of factors separated (nominally) by whitespace.
+Whitespace is an 'operator' that means the same thing as multiplication,
+but has a higher precedence than '*', '/', or 'per'.
+
+  factor : prim
+         | prim '**' integer
+
+  prim : number
+       | word
+       | '(' expr ')'
+       | 'square' primary
+       | 'sq' primary
+       | 'cubic' primary
+       | primary 'squared'
+       | primary 'cubed'
+
+=head1 PREDEFINED UNIT LIBRARY
 
 A rather complete set of units is pre-defined in the library, so it
 will probably be rare that you'll need to define your own. See the
@@ -1405,7 +1418,7 @@ international agreement. Thus, they are:
   * h   - Planck constant
   * Na  - Avogadro constant
 
-=head1 Name Conflicts and Resolutions
+=head1 NAME CONFLICTS AND RESOLUTIONS
 
 A few unit names and abbreviations had to be changed in order to avoid name
 conflicts.  These are:
@@ -1427,10 +1440,10 @@ For the unit of mass, use C<pound-mass>, C<pounds-mass>, or C<lbm>.
 C<ounce> - As a unit of mass, use C<ounce>, C<ounce-force>, or C<ozf>.
 For the unit of volume, use C<fluid-ounce>, C<floz>, or C<fluidounce>.
 
-=head1 Export Options
+=head1 EXPORT OPTIONS
 
 By default, this module exports nothing. You can request all of the
-utility functions to be exported as follows:
+L<functions|/FUNCTIONS> to be exported as follows:
 
   use Physics::Unit ':ALL';
 
@@ -1438,30 +1451,7 @@ Or, you can just get specific ones. For example:
 
   use Physics::Unit qw( GetUnit ListUnits );
 
-=head1 PACKAGE VARIABLES
-
-=head2 $debug
-
-Turning this on enables copious debugging information. This is a
-package global, not a file-scoped lexical. So it can be turned on
-like this
-
-  BEGIN { $Physics::Unit::debug = 1; }
-
-  use Physics::Unit;
-
-=head2 $number_re
-
-This is the regular expression used to parse out a number.  It is
-here so that other modules can use it for convenience.
-
-A (correct) regular expression for a floating point number,
-optionally in exponent form. This is hard to come by.
-
-This variable may also be imported for ease of use.
-
-
-=head1 PUBLIC UTILITY FUNCTIONS
+=head1 FUNCTIONS
 
 =head2 InitBaseUnit()
 
@@ -1492,12 +1482,12 @@ consists of a type name followed by a reference to an array. The
 array consists of a list of names which can be used to reference the
 unit. For example:
 
-  InitBaseUnit('Beauty' => ['sarah', 'sarahs', 'smw']);
+  InitBaseUnit('Beauty' => ['sonja', 'sonjas', 'smw']);
 
 This defines a new basic physical type, called Beauty. This also
 causes the creation of a single new Unit object, which has three
-names: sarah, sarahs, and smw. The type Beauty is refered to as a
-base type. The Unit sarah is refered to as the base unit
+names: sonja, sonjas, and smw. The type Beauty is refered to as a
+base type. The Unit sonja is refered to as the base unit
 corresponding to the type Beauty.
 
 After defining a new base unit and type, you can then create other
@@ -1520,7 +1510,7 @@ list of name-value pairs, for example:
 
 From then on, you can use those prefixes to define new units, as in:
 
-  $beauty_rate = new Physics::Unit('5 piccolosarah / hour');
+  $beauty_rate = new Physics::Unit('5 piccolosonja / hour');
 
 =head2 InitUnit()
 
@@ -1532,9 +1522,9 @@ compile time to initialize the module with all the predefined units.
 It may also be
 called by users at runtime, to expand the unit system. For example:
 
-  InitUnit( ['chris', 'cfm'] => '3 piccolosarahs' );
+  InitUnit( ['chris', 'cfm'] => '3 piccolosonjas' );
 
-creates another unit of type Beauty equal to 3 * 10-100 sarahs.
+creates another unit of type Beauty equal to 3 * 10-100 sonjas.
 
 Both this utility function and the new class method can be used to
 create new, named Units. There are minor differences between these
@@ -1652,13 +1642,13 @@ utility function.
 Examples:
 
   # Create a new, anonymous unit:
-  $u = new Physics::Unit ('3 pi sarahs per s');
+  $u = new Physics::Unit ('3 pi sonjas per s');
 
   # Create a new, named unit:
-  $u = new Physics::Unit ('3 pi sarahs per s', 'bloom');
+  $u = new Physics::Unit ('3 pi sonjas per s', 'bloom');
 
   # Or, create a new unit with a list of names:
-  $u  = new Physics::Unit ('3 pi sarahs per s', 'b', 'blooms', 'blm');
+  $u  = new Physics::Unit ('3 pi sonjas per s', 'b', 'blooms', 'blm');
   $n = $u->name;   # returns 'b'
 
   @@ - add a description, and an example of the use of this as an object
@@ -1889,43 +1879,6 @@ method with no names.
 
 This returns 1 if the two unit objects have the same type and the
 same conversion factor.
-
-
-=head1 EXPRESSION GRAMMAR
-
-  expr : term
-       | term '/' expr
-       | term '*' expr
-       | term 'per' expr
-
-  term : factor
-       | term factor
-
-A term is any number of factors separated (nominally) by whitespace.
-Whitespace is an 'operator' that means the same thing as multiplication,
-but has a higher priority than either '*', '/', or 'per'.
-
-Examples of terms (the following lines each contain one term):
-
-  3pi radians
-  3e+4 globules
-
-  factor : prim
-         | prim '**' integer
-
-Note that a primary can be an integer, of course, so factors can
-look like this:
-
-  meter ** 3 ^ 5    # note, '**' and '^' are synonymous
-
-  prim : number
-       | word
-       | '(' expr ')'
-       | 'square' primary
-       | 'sq' primary
-       | 'cubic' primary
-       | primary 'squared'
-       | primary 'cubed'
 
 
 
