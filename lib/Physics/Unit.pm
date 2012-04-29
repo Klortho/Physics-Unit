@@ -470,8 +470,7 @@ sub InitBaseUnit {
         croak 'Invalid arguments to InitBaseUnit'
             if ref $t || (ref $names ne "ARRAY");
 
-        print "Initializing Base Unit $$names[0]\n"
-            if $debug;
+        print "Initializing Base Unit $$names[0]\n" if $debug;
 
         my $unit = NewOne();
         $unit->AddNames(@$names);
@@ -493,8 +492,7 @@ sub InitPrefix {
         croak 'Invalid arguments to InitPrefix'
             if !$name || !$factor || ref $name || ref $factor;
 
-        print "Initializing Prefix $name\n"
-            if $debug;
+        print "Initializing Prefix $name\n" if $debug;
 
         my $u = NewOne();
         $u->AddNames($name);
@@ -516,9 +514,7 @@ sub InitUnit {
         }
 
         print "Initializing Unit $$names[0]\n" if $debug;
-
         my $u = CreateUnit($def);
-
         $u->AddNames(@$names);
     }
 }
@@ -536,10 +532,7 @@ sub InitTypes {
 
 sub GetUnit {
     my $u = shift;
-
-    croak 'GetUnit: expected an argument'
-        unless $u;
-
+    croak 'GetUnit: expected an argument' unless $u;
     return $u if ref $u;
 
     if ($unit_by_name{$u}) {
@@ -582,7 +575,6 @@ sub new {
     }
 
     $self->AddNames(@_);
-
     return $self;
 }
 
@@ -614,12 +606,8 @@ sub type {
     }
 
     # Return value depends on whether we got zero, one, or multiple types
-    return undef
-        unless @t;
-
-    return $self->{type} = $t[0]
-        if @t == 1;
-
+    return undef unless @t;
+    return $self->{type} = $t[0] if @t == 1;
     return \@t;
 }
 
@@ -632,13 +620,11 @@ sub name {
 sub abbr {
     my $self = shift;
     my $n = ${$self->{names}}[0];
-    return undef
-        unless defined $n;
+    return undef unless defined $n;
 
     for ($self->names()) {
         $n = $_ if length $_ < length $n;
     }
-
     return $n;
 }
 
@@ -654,7 +640,6 @@ sub def {
 
 sub expanded {
     my $self = shift;
-
     my $s = $self->{factor};
     $s = '' if $s == 1;
 
@@ -670,7 +655,6 @@ sub expanded {
     }
 
     $s = 1 if $s eq '';
-
     return $s;
 }
 
@@ -713,7 +697,6 @@ sub times {
     }
 
     $self->{type} = '';
-
     return $self;
 }
 
@@ -754,13 +737,11 @@ sub power {
     }
 
     $self->{type} = '';
-
     return $self;
 }
 
 sub add {
     my $self = shift;
-
     $self->CheckChange;
 
     my $other = shift;
@@ -768,9 +749,7 @@ sub add {
 
     croak "Can't add ". $u->type .' to a '. $self->type
         if CompareDim($self, $u);
-
     $self->{factor} += $u->{factor};
-
     return $self;
 }
 
@@ -789,7 +768,6 @@ sub subtract {
 
 sub copy {
     my $self = shift;
-
     my $n = {
         'factor' => $self->{factor},
         'dim'    => [@{$self->{dim}}],
@@ -799,7 +777,6 @@ sub copy {
     };
 
     bless $n, 'Physics::Unit';
-
     return $n;
 }
 
@@ -809,9 +786,7 @@ sub equal {
     # If it was called as a class method, throw away the first
     # argument (the class name)
     $obj1 = shift unless ref $obj1;
-
     $obj1 = GetUnit($obj1);
-
     my $obj2 = GetUnit(shift);
 
     return 0 if CompareDim($obj1, $obj2);
@@ -832,16 +807,11 @@ sub NewOne {
 
 sub AddNames {
     my $self = shift;
-
     my $n;
     while ($n = shift) {
-        croak "Can't use a reference as a name!"
-            if ref $n;
-        carp "Name $n is already defined"
-            if LookName($n);
-
+        croak "Can't use a reference as a name!" if ref $n;
+        carp "Name $n is already defined" if LookName($n);
         push @{$self->{names}}, "\L$n";
-
         $unit_by_name{$n} = $self;
     }
 }
@@ -857,34 +827,27 @@ sub NewType {
 
 sub CreateUnit {
     my $def = shift;
-
     # argument was a Unit object
     return $def->new() if ref $def;
-
     # argument was either a simple name or an expression - doesn't matter
     $def = lc $def;
 
     my $u = expr($def);
-
     $u->{def} = $def;
-
     return $u;
 }
 
 sub CompareDim {
     my ($u1, $u2) = @_;
-
     my $d1 = $u1->{dim};
     my $d2 = $u2->{dim};
 
     for (0 .. $NumBases) {
         $$d1[$_] = 0 unless defined $$d1[$_];
         $$d2[$_] = 0 unless defined $$d2[$_];
-
         my $c = ($$d1[$_] <=> $$d2[$_]);
         return $c if $c;
     }
-
     return 0;
 }
 
@@ -905,8 +868,7 @@ sub DebugString {
 
 sub CheckChange {
     my $self = shift;
-    carp "You're not spozed to change named units!"
-        if $self->{names}[0];
+    carp "You're not allowed to change named units!" if $self->{names}[0];
     $self->{names} = [];
     $self->{type} = $self->{def} = undef;
 }
@@ -926,30 +888,22 @@ sub expr {
     }
 
     print ' ' x $indent, "inside expr\n" if $debug;
-
     $indent++;
-
     my $u = term();
 
     for (;;) {
-        print ' ' x $indent, "inside expr loop\n" if $debug;
-
         if ($tok eq 'times') {
             get_token();
-
             $u->times(term());
         }
         elsif ($tok eq 'divide') {
             get_token();
-
             $u->divide(term());
         }
         else {
             print ' ' x $indent, "expr: returning ", $u->DebugString, "\n"
                 if $debug;
-
             $indent--;
-
             return $u;
         }
     }
@@ -957,14 +911,11 @@ sub expr {
 
 sub term {
     print ' ' x $indent, "inside term\n" if $debug;
-
     $indent++;
-
     my $u = Factor();
 
     for (;;) {
         print ' ' x $indent, "inside term loop\n" if $debug;
-
         if ($tok eq 'number' ||
             $tok eq 'name'   ||
             $tok eq 'prefix' ||
@@ -974,11 +925,9 @@ sub term {
             $u->times(Factor());
         }
         else {
-            print ' ' x $indent, "term: returning ",
-                $u->DebugString, "\n" if $debug;
-
+            print ' ' x $indent, "term: returning ", $u->DebugString, "\n"
+                if $debug;
             $indent--;
-
             return $u;
         }
     }
@@ -986,31 +935,23 @@ sub term {
 
 sub Factor {
     print ' ' x $indent, "inside factor\n" if $debug;
-
     $indent++;
 
     my $u = prim();
 
     for (;;) {
         print ' ' x $indent, "inside factor loop\n" if $debug;
-
         if ($tok eq 'exponent') {
             get_token();
-
             die 'Exponent must be an integer'
                 unless $tok eq 'number';
-
             $u->power($numval);
-
             get_token();
         }
         else {
             print ' ' x $indent, "factor: returning ",
-
             $u->DebugString, "\n" if $debug;
-
             $indent--;
-
             return $u;
         }
     }
@@ -1018,62 +959,46 @@ sub Factor {
 
 sub prim {
     print ' ' x $indent, "inside prim\n" if $debug;
-
     $indent++;
 
     my $u;
 
     if ($tok eq 'number') {
         print ' ' x $indent, "got number $numval\n" if $debug;
-
         # Create a new Unit object to represent this number
         $u = NewOne();
-
         $u->{factor} = $numval;
-
         get_token();
     }
     elsif ($tok eq 'prefix') {
         print ' ' x $indent, "got a prefix: ", "$tokname\n" if $debug;
-
         $u = GetUnit($tokname)->copy();
-
         get_token();
-
         $u->times(prim());
     }
     elsif ($tok eq 'name') {
         print ' ' x $indent, "got a name: ", "$tokname\n" if $debug;
-
         $u = GetUnit($tokname)->copy();
-
         get_token();
     }
     elsif ($tok eq 'lparen') {
         print ' ' x $indent, "got a left paren\n" if $debug;
-
         get_token();
-
         $u = expr();
-
         die 'Missing right parenthesis'
             unless $tok eq 'rparen';
-
         get_token();
     }
     elsif ($tok eq 'end') {
         print ' ' x $indent, "got end\n" if $debug;
-
         $u = NewOne();
     }
     elsif ($tok eq 'square') {
         get_token();
-
         $u = prim()->power(2);
     }
     elsif ($tok eq 'cubic') {
         get_token();
-
         $u = prim()->power(3);
     }
     else {
@@ -1082,7 +1007,6 @@ sub prim {
 
     print ' ' x $indent, "prim: returning ", $u->DebugString, "\n"
         if $debug;
-
     $indent--;
 
     # Before returning, see if the *next* token is 'squared' or 'cubed'
@@ -1135,25 +1059,18 @@ sub get_token {
     }
     elsif ($def =~ /^([^\ \n\r\t\f\(\)\/\^\*]+)/) {
         my $t = $1;
-
         my $l = LookName($t);
 
         if ($l == 1) {
             $tok = $reserved_word{$t};
-
             $tokname = $t;
-
             $def = substr $def, length($t);
-
             return;
         }
         elsif ($l == 2) {
             $tok = 'name';
-
             $tokname = $t;
-
             $def = substr $def, length($t);
-
             return;
         }
 
@@ -1161,15 +1078,11 @@ sub get_token {
         for my $p (keys %prefix) {
             if ($t =~ /^$p/i) {
                 $tok = 'prefix';
-
                 $tokname = $p;
-
                 $def = substr $def, length($p);
-
                 return;
             }
         }
-
         die "Unknown unit: $t\n";
     }
     else {
@@ -1190,7 +1103,7 @@ FIXME:  Add some simple, practical unit conversions right up front.
 Also add some examples to show the flexibility of the unit expression
 grammar, and some examples that show arithmetic calculations.
 
-FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front, here, too, 
+FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front, here, too,
 since a lot of common operations will want to use that class.
 
 FIXME:  Decide on, and stick with, a style to use for unit names and expressions
@@ -1213,15 +1126,15 @@ that appear in the text.
 =head1 DESCRIPTION
 
 This module provides classes for the representation of physical units and
-quantities, as well as a large library of predefined Physics::Unit objects.  
+quantities, as well as a large library of predefined Physics::Unit objects.
 New units and quantities can be created with simple human-readable expressions
 (for example "cubic meters per second").  The resultant Perl objects can then be
 manipulated arithmetically, with the dimensionality correctly maintained.
 
-A Physics::Unit object has a list of names, a dimensionality, and a magnitude.  
+A Physics::Unit object has a list of names, a dimensionality, and a magnitude.
 For example, the SI unit of force is the newton.  In this module, it can be
 referred to with any of the names "newton", "nt", or "newtons".  It's dimensionality
-is that of a force:  mass X distance / time^2.  It's magnitude is 1000, which 
+is that of a force:  mass X distance / time^2.  It's magnitude is 1000, which
 expresses how large it is in terms of the base units gram, meter, and second.
 
 Units are created through the use of unit expressions, which allow
@@ -1236,7 +1149,7 @@ can be compared, and converted from one to the other.
 
 FIXME:  Add brief descriptions of each of these.
 
-Physics::Unit 
+Physics::Unit
 
 L<Physics::Unit::Scalar|Physics::Unit::Scalar>
 
@@ -1249,8 +1162,8 @@ L<Physics::Unit::Scalar::Implementation|Physics::Unit::Scalar::Implementation>
 =head1 TYPES OF UNITS
 
 A Unit can have one or more names associated with it, or it can be
-unnamed (anonymous).  Named units are immutable. This ensures that 
-expressions used to derive other units will remain consistent. 
+unnamed (anonymous).  Named units are immutable. This ensures that
+expressions used to derive other units will remain consistent.
 Anonymous units, however, can be changed.
 
 Among named Units, there are three types: prefixes (for example,
@@ -1259,7 +1172,7 @@ Among named Units, there are three types: prefixes (for example,
 A prefix Unit is a special case Unit object that is dimensionless and
 has only one name.  A prefix can be used in unit expressions, as the name
 suggests, as a prefixes to another unit name, with no intervening
-whitespace. For example, "kilogram" is a unit expression that uses the 
+whitespace. For example, "kilogram" is a unit expression that uses the
 prefix "kilo".  For more information about how to use prefixes, see
 L</"Unit Expressions">, below.
 
@@ -1319,9 +1232,9 @@ are equivalent:
     megameter
     mega meter
 
-But note that there is a subtle difference between these, having to do 
+But note that there is a subtle difference between these, having to do
 with the precedence of the prefix operation vs. the space operator.  So
-"C<square megameter>" is a unit of area, but "C<square mega meter>" is a unit of 
+"C<square megameter>" is a unit of area, but "C<square mega meter>" is a unit of
 distance (equal to 10^12 meters).
 
 =item square, sq, or cubic
@@ -1332,7 +1245,7 @@ Square or cube the next thing on the line
 
 Square or cube the previous thing on the line.
 
-=item C<< ^ >> or C<< ** >> 
+=item C<< ^ >> or C<< ** >>
 
 Exponentiation (must be to an integral power)
 
@@ -1344,14 +1257,14 @@ Any amount of whitespace between units is considered a multiplication
 
 Multiplication or division
 
-=item Parentheses 
+=item Parentheses
 
 Can be used to override the precedence of any of the operators.
 
 =back
 
 For the most part, this precedence order lets you write unit expressions
-in a natural way.  For example, note that the space operator has higher precedence 
+in a natural way.  For example, note that the space operator has higher precedence
 than '*', '/', or 'per'.  Thus "C<meters / sec sec>" is a unit of acceleration,
 but note that "C<meters / sec*sec>" is not.  The latter
 is equivalent to just 'meters'.
@@ -1453,7 +1366,7 @@ Or, you can just get specific ones. For example:
 
 =head1 FUNCTIONS
 
-=over 
+=over
 
 =item C<InitBaseUnit($type1, $nameList1, $type2, $nameList2, ...)>
 
@@ -1522,7 +1435,7 @@ InitUnit must have a name, however, whereas C<new> can be used to create anonymo
 Unit objects.
 
 In this function and in others, an argument that specifies a unit can be given
-either as Unit object, a single unit name, or a unit expression. 
+either as Unit object, a single unit name, or a unit expression.
 So, for example, these are the same:
 
   InitUnit( ['mycron'], '3600 sec' );
@@ -1544,7 +1457,7 @@ The magnitude of the unit is not used.
 
 Returns a Unit object associated with the the argument passed in. The
 argument can either be a Unit object (in which case it is simply returned),
-a unit name (in which case the name is looked up and a reference to the 
+a unit name (in which case the name is looked up and a reference to the
 corresponding Unit is returns), or a unit expression (in which case a new
 Unit object is created and a reference to it is returned).
 
@@ -1575,7 +1488,7 @@ Returns the Unit object corresponding to a given type.
 
 =item C<new( [$name1, $name2, ... ] )>
 
-This method creates a new Unit object. The names are optional. 
+This method creates a new Unit object. The names are optional.
 If more than one name is given, the first is the "primary name",
 which means it is the one returned by the name() method.
 
@@ -1742,7 +1655,7 @@ Add $unit, which must be of the same type.
 
 =item C<neg()>
 
-Replaced with the arithmetic negative. 
+Replaced with the arithmetic negative.
 
 =item C<subtract($unit)>
 
@@ -1750,9 +1663,9 @@ Subtract $unit, which must be of the same type.
 
 =item C<copy()>
 
-This creates a copy of an existing unit, without copying the names.  
+This creates a copy of an existing unit, without copying the names.
 So you are free to modify the copy (while modification of
-named units is verboten).  If the type of the existing unit is 
+named units is verboten).  If the type of the existing unit is
 well-defined, then it, also, is copied.
 
 This is the same as the new method, when new is called as an object
