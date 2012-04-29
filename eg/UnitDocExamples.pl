@@ -3,17 +3,28 @@
 
 use Physics::Unit ':ALL';   # exports all util. function names
 
-# Define your own units
-$ss = new Physics::Unit('furlong / fortnight', 'ff');
+# Define your own unit and assign it the name "ff"
+$ff = new Physics::Unit('furlong / fortnight', 'ff');
+print $ff->type, "\n";   # prints:  Speed
 
-# Print the expanded representation of a unit
-print $ss->expanded, "\n";
+# Convert.  Prints:  One ff is 0.0003720... miles per hour
+print "One ", $ff->name, " is ", $ff->convert('mph'), " miles per hour\n";
 
-# Convert from one to another
-print "One ", $ss->name, " is ", $ss->convert('mph'), " miles per hour\n";
+# Get canonical string representation
+print $ff->expanded, "\n";  # prints:  0.0001663... m s^-1
 
-# Get a Unit's conversion factor
-print "Conversion factor of foot is ", GetUnit('foot')->factor, "\n";
+# Unit expression example (using newly defined unit):
+$gonzo = new Physics::Unit "13 square millimeters per ff";
+print $gonzo->expanded, "\n";  # prints:  0.07816... m s
+
+# Doing arithmetic, while maintaining types of units
+$m = $ff->copy->times("5 kg");
+print $m->type, " is ", $m->ToString, "\n";
+# prints: Momentum is 0.8315... m gm s^-1
+
+
+
+
 
 #---------------------
 
