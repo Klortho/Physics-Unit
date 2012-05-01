@@ -15,9 +15,6 @@ Physics::Unit - Manipulate physics units and dimensions.
 FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front, here, too,
 since a lot of common operations will want to use that class.
 
-FIXME:  Decide on, and stick with, a style to use for unit names and expressions
-that appear in the text.
-
     use Physics::Unit ':ALL';   # exports all util. function names
 
     # Define your own unit and assign it the name "ff"
@@ -217,6 +214,8 @@ B<lbm>, B<lbms>, or B<pounds-mass>.
 However, I couldn't bring myself to do the same thing to all the
 other American units derived from a B<pound>. Therefore, B<ounce>, B<ton>,
 B<long-ton>, and B<hundredweight> are all units of mass.
+
+=head2 Physical Constants
 
 A few physical constants were defined as Unit objects. This list is
 very restricted, however. I limited them to physical constants which
@@ -620,6 +619,8 @@ same conversion factor.
 Here are some other modules that might fit your needs better than this:
 
 =over
+
+=item * L<MooseX::Types::NumUnit>
 
 =item * L<Math::Units>
 
