@@ -42,7 +42,7 @@ L<Physics::Unit> is a Perl module for managing units and unit conversions. The C
 
   physics-unit [options] [name(s)|expression(s)]
 
-  If reserved word, unit or type names, or unit expressions, are given on the
+  If reserved words, unit or type names, or unit expressions, are given on the
   command line, this prints a block of information for each to STDOUT.  The
   options -e, -t, and -u, on the other hand, cause comprehensive lists of
   data to be dumped from the unit library.
