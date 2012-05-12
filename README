@@ -56,7 +56,7 @@ On Windows, from a command window:
 
 DEPENDENCIES
 
-This module is pure Perl, and requires no other modules.
+This module is pure Perl, and the depends only on Carp.
 
 
 COPYRIGHT AND LICENCE
