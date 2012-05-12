@@ -2,6 +2,39 @@
 
 Physics::Unit::Scalar
 
+=head1 SYNOPSIS
+
+    use Physics::Unit::Scalar;
+
+    # Manipulate Distances
+    $d = new Physics::Unit::Distance('98 mi');
+    print $d->ToString, "\n";             # prints '157715.712 meter'
+
+    $d->add('10 km');
+    print "Sum is ", $d->ToString, "\n";  # prints '167715.712 meter'
+
+    print $d->value, ' ', $d->default_unit->name, "\n";   # same thing
+
+    # Print out a quantity in a different unit:
+    print $d->ToString('mile');
+
+    print $d->convert('mile'), " mile\n";    # same thing
+
+    $d2 = new Physics::Unit::Distance('2000');     # no unit given, use the default
+    print $d2->ToString, "\n";
+
+    # Manipulate Times
+    $t = Physics::Unit::Time->new('36 years');
+    print $t->ToString, "\n";              # prints '1136073600 second'
+
+    # Speed equals Distance / Time
+    $s = $d->div($t);       #  $s is a Physics::Unit::Speed object
+    print $s->ToString, "\n";              # prints ''
+
+    # Create a Scalar with an unknown type
+    $s = new Physics::Unit::Scalar('kg m s');
+    $f = $s->div('3000 s^3');   # $f is a Physics::Unit::Force
+
 =head1 DESCRIPTION
 
 This package encapsulates information about physical quantities.
@@ -54,39 +87,6 @@ Force * Distance.  Therefore, it remains the programmer's
 responsibility, in this case, to assign the correct subclass to
 Scalars that have this dimensionality.
 
-=head1 SYNOPSIS
-
-    use Physics::Unit::Scalar;
-
-    # Manipulate Distances
-    $d = new Physics::Unit::Distance('98 mi');
-    print $d->ToString, "\n";             # prints '157715.712 meter'
-
-    $d->add('10 km');
-    print "Sum is ", $d->ToString, "\n";  # prints '167715.712 meter'
-
-    print $d->value, ' ', $d->default_unit->name, "\n";   # same thing
-
-    # Print out a quantity in a different unit:
-    print $d->ToString('mile');
-
-    print $d->convert('mile'), " mile\n";    # same thing
-
-    $d2 = new Physics::Unit::Distance('2000');     # no unit given, use the default
-    print $d2->ToString, "\n";
-
-    # Manipulate Times
-    $t = Physics::Unit::Time->new('36 years');
-    print $t->ToString, "\n";              # prints '1136073600 second'
-
-    # Speed equals Distance / Time
-    $s = $d->div($t);       #  $s is a Physics::Unit::Speed object
-    print $s->ToString, "\n";              # prints ''
-
-    # Create a Scalar with an unknown type
-    $s = new Physics::Unit::Scalar('kg m s');
-    $f = $s->div('3000 s^3');   # $f is a Physics::Unit::Force
-
 =head1 DEBUG OPTION
 
 Before the use statement, include a line turning debugging on, as in:
@@ -98,7 +98,6 @@ This will cause copious debugging output to be generated.  It will
 also cause the creation of a file, Scalar_subtypes.pm, which defines
 all of the subclasses of Scalar, based on the Unit types.  The text
 of this file is evaled in order to define the subclasses.
-
 
 =head1 UNITS ASSOCIATED WITH SCALARS
 

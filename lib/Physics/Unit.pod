@@ -381,7 +381,7 @@ So, for example, these are the same:
 
 Use this function to define derived types. For example:
 
-  InitTypes( 'Aging' => 'sonja / year' );
+  InitTypes( 'Blooming' => 'sonja / year' );
 
 defines a new type that for a rate of change of B<Beauty> with time.
 
@@ -447,7 +447,7 @@ Get or set this Unit's type.
 
 For example:
 
-  GetUnit('rod')->type;    # returns 'Distance'
+  print GetUnit('rod')->type, "\n";  # 'Distance'
 
 Usually it will not be necessary to set a Unit's type. The type
 is normally determined uniquely from the dimensionality.
@@ -529,7 +529,7 @@ no longer a valid definition of the Unit.
 Produces a string representation of the Unit, in terms of the base
 Units.  For example:
 
-  GetUnit('calorie')->expanded, "\n";  # "4184 m^2 gm s^-2"
+  print GetUnit('calorie')->expanded, "\n";  # "4184 m^2 gm s^-2"
 
 =item C<ToString()>
 
@@ -552,7 +552,7 @@ Unit's factor, then the Unit object must be anonymous.
 Returns the number which converts this Unit to another. The types of
 the Units must match. For example:
 
-  GetUnit('mile')->convert('foot');  # 5280
+  print GetUnit('mile')->convert('foot'), "\n";  # 5280
 
 =item C<times($unitDef)>
 
