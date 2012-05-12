@@ -17,38 +17,39 @@ since a lot of common operations will want to use that class.
 
     use Physics::Unit ':ALL';   # exports all util. function names
 
-    # Define your own unit and assign it the name "ff"
+    # Define your own unit named "ff"
     $ff = new Physics::Unit('furlong / fortnight', 'ff');
-    print $ff->type, "\n";   # prints:  Speed
+    print $ff->type, "\n";         # prints:  Speed
 
-    # Convert.  Prints:  One ff is 0.0003720... miles per hour
+    # Convert to mph; this prints:  One ff is 0.0003720... miles per hour
     print "One ", $ff->name, " is ", $ff->convert('mph'), " miles per hour\n";
 
     # Get canonical string representation
-    print $ff->expanded, "\n";  # prints:  0.0001663... m s^-1
+    print $ff->expanded, "\n";     # prints:  0.0001663... m s^-1
 
-    # Unit expression example (using newly defined unit):
+    # More intricate unit expression (using the newly defined unit 'ff'):
     $gonzo = new Physics::Unit "13 square millimeters per ff";
     print $gonzo->expanded, "\n";  # prints:  0.07816... m s
 
-    # Doing arithmetic, while maintaining types of units
+    # Doing arithmetic maintains the types of units
     $m = $ff->copy->times("5 kg");
-    print $m->type, " is ", $m->ToString, "\n";
-    # prints: Momentum is 0.8315... m gm s^-1
+    print "This ", $m->type, " unit is ", $m->ToString, "\n";
+    # prints: This Momentum unit is 0.8315... m gm s^-1
 
 =head1 DESCRIPTION
 
 This module provides classes for the representation of physical units and
 quantities, as well as a large library of predefined Physics::Unit objects.
 New units and quantities can be created with simple human-readable expressions
-(for example C<cubic meters per second>).  The resultant Perl objects can then be
+(for example, C<cubic meters per second>).  The resultant objects can then be
 manipulated arithmetically, with the dimensionality correctly maintained.
 
 A Physics::Unit object has a list of names, a dimensionality, and a magnitude.
 For example, the SI unit of force is the B<newton>.  In this module, it can be
 referred to with any of the names B<newton>, B<nt>, or B<newtons>.  It's dimensionality
 is that of a force:  mass X distance / time^2.  It's magnitude is 1000, which
-expresses how large it is in terms of the base units B<gram>, B<meter>, and B<second>.
+expresses how large it is in terms of the unprefixed base units B<gram>, B<meter>, and
+B<second>.
 
 Units are created through the use of unit expressions, which allow
 you to combine previously defined named units in new and interesting
@@ -77,7 +78,7 @@ L<Physics::Unit::Scalar::Implementation|Physics::Unit::Scalar::Implementation>
 A Unit can have one or more names associated with it, or it can be
 unnamed (anonymous).  Named units are immutable. This ensures that
 expressions used to derive other Units will remain consistent.
-Anonymous Units, however, can be changed.
+The values of anonymous Unit objects, however, can change.
 
 Among named Units, there are three types: prefixes (for example,
 "kilo", "mega", etc.), base units, and derived units.
@@ -94,7 +95,7 @@ The predefined unit library defines nine base units, for each of nine
 fundamental quantities.  See L</InitBaseUnit()> below for a list.
 
 A derived Unit is one that is built up from other named Units, using a
-unit expression.
+unit expression.  Most Units are derived Units.
 
 The terms base dimension and derived dimension (or derived type) are
 sometimes used. B<Distance> is an example of a base dimension. It is not
@@ -139,8 +140,8 @@ see the [FIXME:  issue #8] Units by Type page.
 The prefixes are allowed before units, or by themselves. Thus, these
 are equivalent:
 
-    megameter
-    mega meter
+    (megameter)
+    (mega meter)
 
 But note that when used in expressions, there can be subtle differences, because
 the precedence of the prefix operation is higher than the space operator.  So
@@ -180,6 +181,8 @@ but "C<meters/sec*sec>" is not.  The latter is equivalent to just 'meters'.
 
 =head2 Expression Grammar
 
+This is the approximate grammar used by the parser.
+
   expr : term
        | term '/' expr
        | term '*' expr
@@ -188,17 +191,17 @@ but "C<meters/sec*sec>" is not.  The latter is equivalent to just 'meters'.
   term : factor
        | term <whitespace> factor
 
-  factor : prim
-         | prim '**' integer
+  factor : primary
+         | primary '**' integer
 
-  prim : number
-       | word
-       | '(' expr ')'
-       | 'square' primary
-       | 'sq' primary
-       | 'cubic' primary
-       | primary 'squared'
-       | primary 'cubed'
+  primary : number
+          | word
+          | '(' expr ')'
+          | 'square' primary
+          | 'sq' primary
+          | 'cubic' primary
+          | primary 'squared'
+          | primary 'cubed'
 
 =head1 PREDEFINED UNIT LIBRARY
 
@@ -349,10 +352,7 @@ From then on, you can use those prefixes to define new units, as in:
 
   $beautification_rate = new Physics::Unit('5 piccolosonjas / hour');
 
-=item C<InitUnit()>
-
-  Physics::Unit::InitUnit( name-list, I<unit-def>,
-                           name-list, I<unit-def>, ... );
+=item C<InitUnit($nameList1, $unitDef1, $nameList2, $unitDef2, ...)>
 
 This function creates one or more new named Units.  This is called at
 compile time to initialize the module with all the predefined units.
@@ -368,7 +368,8 @@ create new, named Unit objects. Units created with
 C<InitUnit> must have a name, however, whereas C<new> can be used to create anonymous
 Unit objects.
 
-In this function and in others, an argument that specifies a Unit can be given
+In this function and in others, an argument that specifies a Unit (a "unitDef")
+can be given
 either as Unit object, a single Unit name, or a unit expression.
 So, for example, these are the same:
 
@@ -387,7 +388,7 @@ defines a new type that for a rate of change of B<Beauty> with time.
 This function associates a type name with a specific dimensionality.
 The magnitude of the Unit is not used.
 
-=item C<GetUnit($unit)>
+=item C<GetUnit($unitDef)>
 
 Returns a Unit object associated with the the argument passed in. The
 argument can either be a Unit object (in which case it is simply returned),
@@ -408,9 +409,10 @@ alphabetically.
 
 Returns the number of base dimension units.
 
-=item C<GetTypeUnit()>
+=item C<GetTypeUnit($type)>
 
-Returns the Unit object corresponding to a given type.
+Returns the Unit object corresponding to a given type name, or B<undef> if
+the type is not recognized.
 
 =back
 
@@ -430,8 +432,9 @@ Unit names must be unique. See the [FIXME:  issue #8] Unit by Names
 page to see an alphabetical list of all the pre-defined unit names.
 
 If no names are given, then an anonymous Unit is created. Note that
-another way of creating new anonymous Units is with the GetUnit
-utility function.
+another way of creating new anonymous Units is with the C<GetUnit()>
+function.  Unlike GetUnit(), however, the new method always creates
+a new object.
 
 Examples:
 
@@ -446,21 +449,20 @@ For example:
 
   GetUnit('rod')->type;    # returns 'Distance'
 
-It will almost never be necessary to set a Unit object's type. The type
-is normally determined uniquely from the dimensionality of the Unit.
+Usually it will not be necessary to set a Unit's type. The type
+is normally determined uniquely from the dimensionality.
 However, occasionally, more than one type can match a given Unit's
-dimensionality. For example, B<Torque> and B<Energy> have the same
 dimensionality.
 
-In that case, all of the predefined, named Units are explicitly
+For example, B<Torque> and B<Energy> have the same
+dimensionality.  In that case, all of the predefined, named Units are explicitly
 designated to be one type or the other. For example, the Unit B<newton>
 is defined to have the type B<Energy>. See the [FIXME:  issue #8]
 list of Units by Type to
 see which Units are defined as B<Energy> and which as B<Torque>.
 
-However, if you are going to create new Unit objects from unit
-expressions that have that dimensionality, it will be necessary to
-explicitly specify which type that Unit object is.
+If you create a new Unit object that has this dimensionality, then it will
+be necessary to explicitly specify which type that Unit object is.
 
 When this method is called to set the Unit's type, only one type
 string argument is allowed, and it must be a predefined type name
@@ -497,10 +499,8 @@ Some examples:
   $t = $u1->type;       #  'Energy'
 
   # Create a new copy of a predefined, typed unit:
-  $u3 = GetUnit('joule')->new;    # *not*  Physics::Unit->new('joule');
-  $t = $u3->type;    # 'Energy'
-
-FIXME:  Why not Physics::Unit->new('joule');?
+  $u3 = GetUnit('joule')->new;
+  $t = $u3->type;       # 'Energy'
 
 =item C<name()>
 
@@ -515,9 +515,7 @@ C<undef>.
 =item C<names()>
 
 Returns a list of names that can be used to reference the Unit.
-Returns C<undef> if the Unit is unnamed.
-
-FIXME:  Does this really return undef, or the empty list?
+Returns the empty list if the Unit is unnamed.
 
 =item C<def()>
 
@@ -549,14 +547,14 @@ thing as the C<expanded()> method.
 Get or set the Unit's conversion factor (magnitude). If this is used to set a
 Unit's factor, then the Unit object must be anonymous.
 
-=item C<convert($unit)>
+=item C<convert($unitDef)>
 
 Returns the number which converts this Unit to another. The types of
 the Units must match. For example:
 
-  GetUnit('mile')->convert(GetUnit('foot'));  # 5280
+  GetUnit('mile')->convert('foot');  # 5280
 
-=item C<times($unit)>
+=item C<times($unitDef)>
 
 Multiply this object by the given Unit.  This will, in general, change a
 Unit's dimensionality, and hence its type.
@@ -566,7 +564,7 @@ Unit's dimensionality, and hence its type.
 Replaced a Unit with its reciprocal.  This will, in general, change a
 Unit's dimensionality, and hence its type.
 
-=item C<divide($unit)>
+=item C<divide($unitDef)>
 
 Divide this object by the given Unit.  This will, in general, change a
 Unit's dimensionality, and hence its type.
@@ -583,17 +581,17 @@ For example:
 Raises a Unit to an integral power.   This will, in general, change its
 dimensionality, and hence its type.
 
-=item C<add($unit)>
+=item C<add($unitDef)>
 
-Add C<$unit>, which must be of the same type.
+Add a Unit, which must be of the same type.
 
 =item C<neg()>
 
-Replace  with the arithmetic negative.
+Replace a Unit with its arithmetic negative.
 
-=item C<subtract($unit)>
+=item C<subtract($unitDef)>
 
-Subtract C<$unit>, which must be of the same type.
+Subtract a Unit, which must be of the same type.
 
 =item C<copy()>
 
@@ -610,13 +608,13 @@ method with no names.
 =item C<Physics::Unit->equal($unit1, $unit2);>
 
 This returns 1 if the two Unit objects have the same type and the
-same conversion factor.
+same magnitude.
 
 =back
 
 =head1 SEE ALSO
 
-Here are some other modules that might fit your needs better than this:
+Here are some other modules that might fit your needs better than this one:
 
 =over
 
@@ -628,11 +626,15 @@ Here are some other modules that might fit your needs better than this:
 
 =item * L<Petrophysics::Unit>
 
+=back
+
 =head1 AUTHOR
 
 Written by Chris Maloney <voldrani@gmail.com>
 
-Formatted for distribution by Gene Boggs <cpan@ology.net>
+Special thanks for major contributions and encouragement from Joel Berger.
+Thanks also to Ben Bullock, and initial help in formatting for distribution
+from Gene Boggs <cpan@ology.net>.
 
 =head1 COPYRIGHT AND LICENSE
 

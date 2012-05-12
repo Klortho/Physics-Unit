@@ -3,25 +3,24 @@
 
 use Physics::Unit ':ALL';   # exports all util. function names
 
-# Define your own unit and assign it the name "ff"
+# Define your own unit named "ff"
 $ff = new Physics::Unit('furlong / fortnight', 'ff');
-print $ff->type, "\n";   # prints:  Speed
+print $ff->type, "\n";         # prints:  Speed
 
-# Convert.  Prints:  One ff is 0.0003720... miles per hour
+# Convert to mph; this prints:  One ff is 0.0003720... miles per hour
 print "One ", $ff->name, " is ", $ff->convert('mph'), " miles per hour\n";
 
 # Get canonical string representation
-print $ff->expanded, "\n";  # prints:  0.0001663... m s^-1
+print $ff->expanded, "\n";     # prints:  0.0001663... m s^-1
 
-# Unit expression example (using newly defined unit):
+# More intricate unit expression (using the newly defined unit 'ff'):
 $gonzo = new Physics::Unit "13 square millimeters per ff";
 print $gonzo->expanded, "\n";  # prints:  0.07816... m s
 
-# Doing arithmetic, while maintaining types of units
+# Doing arithmetic maintains the types of units
 $m = $ff->copy->times("5 kg");
-print $m->type, " is ", $m->ToString, "\n";
-# prints: Momentum is 0.8315... m gm s^-1
-
+print "This ", $m->type, " unit is ", $m->ToString, "\n";
+# prints: This Momentum unit is 0.8315... m gm s^-1
 
 
 
@@ -32,13 +31,13 @@ print "One mph is ", GetUnit('mph')->factor, " meters / sec\n";
 
 #---------------------
 
-InitBaseUnit('Beauty' => ['sonja', 'sonjas', 'smw']);
+InitBaseUnit('Beauty' => ['sonja', 'sonjas', 'yh']);
 
 #---------------------
 
 InitPrefix('gonzo' => 1e100, 'piccolo' => 1e-100);
 
-$beauty_rate = new Physics::Unit('5 piccolosonja / hour');
+$beauty_rate = new Physics::Unit('5 piccolosonjas / hour');
 
 #---------------------
 
@@ -76,9 +75,16 @@ $u2 = new Physics::Unit('kg m^2/s^2');
 $t = $u2->type;    # $t == ['Energy', 'Torque']
 
 
-# But if we use a predefined, named unit, we get a single type:
-$u3 = GetUnit('joule')->new;    # *not*  Physics::Unit->new('joule');
-$t = $u3->type;    # $t == 'Energy'
+# Create a new copy of a predefined, typed unit:
+$u3 = GetUnit('joule')->new;
+$t = $u3->type;       # 'Energy'
+print "u3->type is $t\n";
+
+# But take care; if you use the C<new()> method with a name, then that's
+# considered a unit expression, and the type is not preserved
+$u4 = new Physics::Unit('joule');
+$t = $u4->type;       # ['Energy', 'Torque']
+print "u4->type is $t\n";
 
 #---------------------
 
