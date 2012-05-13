@@ -18,7 +18,8 @@ Physics::Unit - Manipulate physics units and dimensions.
 
 =head1 SYNOPSIS
 
-FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front, here, too,
+FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front,
+here, too,
 since a lot of common operations will want to use that class.
 
     use Physics::Unit ':ALL';   # exports all util. function names
@@ -141,7 +142,7 @@ between the prefix and the Unit name, this would be the space
 operator, which is not the same (see below).
 
 The unit library comes with a rather complete set of predefined SI prefixes;
-see the [FIXME:  issue #8] Units by Type page.
+see the [FIXME: Github issue #8] Units by Type page.
 
 The prefixes are allowed before units, or by themselves. Thus, these
 are equivalent:

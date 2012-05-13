@@ -34,13 +34,12 @@ Physics::Unit::Scalar
 
 =head1 DESCRIPTION
 
-FIXME:  Links
-
 This package encapsulates information about physical quantities.
 Each instance of a class that derives from Physics::Unit::Scalar
 holds the value of some type of measurable quantity.  When you use
 this module, several new classes are immediately available.  See the
-Derived Classes section below for a complete list.  FIXME:  Where's this?
+Units by Type file [FIXME: Github issue #8]
+for a list of types included with the unit library.
 
 You will probably only need to use the classes that derive from
 Physics::Unit::Scalar, such as Physics::Unit::Distance,
