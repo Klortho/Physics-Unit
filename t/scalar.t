@@ -57,7 +57,7 @@ is($t->ToString, '1136073600 second', '36 years');
 
 # Compute a Speed = Distance / Time
 
-my $speed = $d->div($t);
+my $speed = $d->divide($t);
 is(ref $speed, 'Physics::Unit::Speed',
    'Speed type determined automagically');
 
@@ -87,7 +87,7 @@ $s = new Physics::Unit::Scalar('kg m s');
 is($s->ToString, '1000 m gm s', '1000 m gm s');
 
 
-my $f = $s->div('3000 s^3');   # $f is a Physics::Unit::Force
+my $f = $s->divide('3000 s^3');   # $f is a Physics::Unit::Force
 ok(defined $f,   "Physics::Unit::Force");
 is(ref($f), 'Physics::Unit::Force', 'Force type');
 like($f->ToString, '/^0\.00033333333333\d* newton$/', 'Force ToString');
