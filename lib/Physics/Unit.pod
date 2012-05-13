@@ -18,10 +18,6 @@ Physics::Unit - Manipulate physics units and dimensions.
 
 =head1 SYNOPSIS
 
-FIXME:  Make mention of Physics::Unit::Scalar (and other) right up front,
-here, too,
-since a lot of common operations will want to use that class.
-
     use Physics::Unit ':ALL';   # exports all util. function names
 
     # Define your own unit named "ff"
@@ -43,20 +39,29 @@ since a lot of common operations will want to use that class.
     print "This ", $m->type, " unit is ", $m->ToString, "\n";
     # prints: This Momentum unit is 0.8315... m gm s^-1
 
+See also the L<Synopsis|Physics::Unit::Scalar/Synopsis> section of
+L<Physics::Unit::Scalar|Physics::Unit::Scalar> for more examples.
+
 =head1 DESCRIPTION
 
-This module provides classes for the representation of physical units and
+These modules provide classes for the representation of physical units and
 quantities, as well as a large library of predefined Physics::Unit objects.
 New units and quantities can be created with simple human-readable expressions
 (for example, C<cubic meters per second>).  The resultant objects can then be
 manipulated arithmetically, with the dimensionality correctly maintained.
 
+Physics::Unit objects generally represent standard, named units,
+like B<meter> or B<electronvolt>.
+L<Physics::Unit::Scalar|Physics::Unit::Scalar> and related classes, on the
+other hand, are used to represent various quantities that might occur as the
+result of a measurement or a specification, like "5.7 meters" or "7.4
+teraelectronvolts".
+
 A Physics::Unit object has a list of names, a dimensionality, and a magnitude.
 For example, the SI unit of force is the B<newton>.  In this module, it can be
 referred to with any of the names B<newton>, B<nt>, or B<newtons>.  It's dimensionality
 is that of a force:  mass X distance / time^2.  It's magnitude is 1000, which
-expresses how large it is in terms of the unprefixed base units B<gram>, B<meter>, and
-B<second>.
+expresses how large it is in terms of the unprefixed base units B<gram>, B<meter>, and B<second>.
 
 Units are created through the use of unit expressions, which allow
 you to combine previously defined named units in new and interesting
@@ -68,17 +73,30 @@ can be compared, and converted from one to the other.
 
 =head1 GUIDE TO DOCUMENTATION
 
-FIXME:  Add brief descriptions of each of these.
+=over
 
-Physics::Unit
+=item Physics::Unit
 
-L<Physics::Unit::Scalar|Physics::Unit::Scalar>
+This page.
 
-physics_unit
+=item L<Physics::Unit::Scalar|Physics::Unit::Scalar>
 
-L<Physics::Unit::Implementation|Physics::Unit::Implementation>
+Describes the Scalar class and all of the type-specific classes
+that derive from Scalar.
 
-L<Physics::Unit::Scalar::Implementation|Physics::Unit::Scalar::Implementation>
+=item physics_unit
+
+Describes the command-line utility that is included with this module.
+
+=item L<Physics::Unit::Implementation|Physics::Unit::Implementation>
+
+Describes some implementation details for the Unit module.
+
+=item L<Physics::Unit::Scalar::Implementation|Physics::Unit::Scalar::Implementation>
+
+Implementation details for the Scalar module.
+
+=back
 
 =head1 TYPES OF UNITS
 
