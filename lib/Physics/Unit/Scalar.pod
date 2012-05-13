@@ -57,66 +57,25 @@ class of the object.
 
 For example, the class Physics::Unit::Distance uses the Physics::Unit
 object named 'meter' to define the scale of its object instances.
-Coincidentally (not really) the type of the Unit object is 'Distance'.
+The type of the 'meter' object is 'Distance'.
 
 Defining classes that correspond to physical quantity types allows us
 to overload the arithmetic methods to produce derived classes of the
-correct type automagically.  For example:
+correct type automatically.  For example:
 
   $d = new Physics::Unit::Distance('98 mi');
   $t = new Physics::Unit::Time('36 years');
+  # $s will be of type Physics::Unit::Speed.
+  $s = $d->div($t);
 
-  # Compute a Speed = Distance / Time
-  # $speed will be of type Physics::Unit::Speed.
-
-  my $speed = $d->div($t);
-
-In general, when a new Physics::Unit::Scalar needs to be created as
-the result of some operation, this package attempts to determine its
+When a new object is created, this package attempts to determine its
 subclass based on its dimensionality.  Thus, when you multiply two
 Distances together, the result is an Area object.  This behavior can
-be selectively overridden when necessary.
-
-The module was designed this way in order to minimize the programmer's
-need to keep track of the various physical types of the objects in
-use, and to enable the compiler, in many cases, to verify
-computations on the basis of dimensional analysis.  Yet, there needs
-to be mechanisms to overide the default behavior in many cases.  For
+be selectively overridden when necessary.  For
 example, both energy and torque have the same dimensions:
 Force * Distance.  Therefore, it remains the programmer's
 responsibility, in this case, to assign the correct subclass to
 Scalars that have this dimensionality.
-
-=head1 UNITS ASSOCIATED WITH SCALARS
-
-Classes and objects derived from Physics::Unit::Scalar follow these
-rules:
-
-=over
-
-=item *
-
-All objects of a particular class that derives from
-Physics::Unit::Scalar define their values relative to the same Physics::Unit
-object, and thus have the same dimensionality and scale.
-
-=item *
-
-Objects of the Physics::Unit::Scalar class (and not a derived class)
-each have their own Physics::Unit object to describe the quantity.
-
-=back
-
-Thus, for example, all objects of type Physics::Unit::Distance use
-the Unit object "meter".  Objects of type
-Physics::Unit::Acceleration use the Unit object "meter / sec^2".
-
-Objects of type Physics::Unit::Scalar (and not a derived class) can
-use any Unit whatsoever, for example, "1 furlong". There could also
-exist an object of type Physics::Unit::Scalar using the Unit "meter",
-but that does not imply that it is a Physics::Unit::Distance
-object. The distinction is important when considering the methods
-that can be used to manipulate and combine different Scalar types.
 
 
 =head1 FUNCTIONS
@@ -128,27 +87,21 @@ expression.  The syntax of the expression is the same as the unit
 expression used by the Physics::Unit module.
 
 The class of the resultant object matches the type of the
-unit created.
-
-If the type is not recognized or ambiguous, then the class of the
-resultant object will be Physics::Unit::Scalar.
+unit created.  If the type is not recognized or ambiguous, then the
+class of the resultant object will be Physics::Unit::Scalar.
 
 =head2 GetScalar($arg)
 
-This function is used by many of the arithmetic function methods,
-wherever an argument specifies a Scalar.  Those arguments can be
-passed either as an actual Physics::Unit::Scalar object or as an
-expression string.
-
-This function returns a blessed Physics::Unit::Scalar object.
+This convenience function takes an object reference or an expression, and
+returns a Physics::Unit::Scalar object.  If $arg is an object reference,
+it is simply returned.
 
 =head1 METHODS
 
 =head2 new()
 
 Class or object method.  This makes a new user defined Scalar (or
-derived class) object.
-For example:
+derived class) object.  For example:
 
     # This creates an object of a derived class
     $d = new Physics::Unit::Distance('3 miles');
@@ -166,14 +119,8 @@ For example:
     # Copy constructor:
     $d2 = $d->new;
 
-This method allows you to create new Scalar objects in a number of
-ways.
-
 If the type cannot be identified by the dimensionality of the unit,
-then a Physics::Unit::Scalar object is returned.  For example:
-
-    $s = new Physics::Unit::Scalar('kg m s');
-
+then a Physics::Unit::Scalar object is returned.
 
 =head2 ToString()
 
@@ -182,22 +129,18 @@ then a Physics::Unit::Scalar object is returned.  For example:
 Prints out the scalar either in the default units or the unit
 specified.
 
-
 =head2 default_unit()
 
 Get the default unit object which is used when printing out
 the given Scalar.
 
-
 =head2 convert()
 
     $v = $scalar->convert(unit);
 
-
 =head2 value()
 
 Get or set the value.
-
 
 =head2 add()
 
@@ -209,16 +152,14 @@ Take the negative of the Scalar
 
 =head2 subtract()
 
-Subtract another Scalar from this one
+Subtract another Scalar from this one.
 
 =head2 times()
 
-This returns a new Scalar object which is the product of $self and the
-scalar argument: i.e.:
-
-    $newscalar = $self * $other
-
-Neither the original object nor the argument is changed.
+This returns a new object which is the product of $self and the
+argument.  Neither the original object nor the argument is changed.
+FIXME:  These should all work the same way.  Either all change the
+value of the existing object, or all return a new object.
 
 =head2 recip()
 
@@ -227,12 +168,14 @@ The original object is unchanged.
 
 =head2 div()
 
-This returns a new Scalar object which is a quotient, i.e.
-
-    $newscalar = $self / $other
-
+This returns a new Scalar object which is a quotient.
 Neither the original object nor the argument is changed.
+FIXME:  Why is the Unit method "divide", but the Scalar method
+is "div"?
 
+=head1 EXPORTS
+
+FIXME:  Need this section.
 
 
 =head1 AUTHOR

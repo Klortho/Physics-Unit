@@ -3,6 +3,38 @@
 Physics::Unit::Scalar::Implementation - This page discusses implementation issues of the Physics/Unit/Scalar.pm
 module.
 
+=head1 UNITS ASSOCIATED WITH SCALARS
+
+Classes and objects derived from Physics::Unit::Scalar follow these
+rules:
+
+=over
+
+=item *
+
+All objects of a particular class that derives from
+Physics::Unit::Scalar define their values relative to I<the same> Physics::Unit
+object, and thus have the same dimensionality and scale.
+
+=item *
+
+Objects of the Physics::Unit::Scalar class (and not a derived class)
+each have I<their own> Physics::Unit object to describe the quantity.
+
+=back
+
+Thus, for example, all objects of type Physics::Unit::Distance use
+the Unit object "meter".  Objects of type
+Physics::Unit::Acceleration use the Unit object "meter / sec^2".
+
+Objects of type Physics::Unit::Scalar (and not a derived class) can
+use any Unit whatsoever, for example, "1 furlong". There could also
+exist an object of type Physics::Unit::Scalar using the Unit "meter",
+but that does not imply that it is a Physics::Unit::Distance
+object. The distinction is important when considering the methods
+that can be used to manipulate and combine different Scalar types.
+
+
 =head1 Private Functions
 
 =head2 InitSubtypes()
