@@ -211,7 +211,7 @@ sub recip {
     return ScalarResolve($newscalar);
 }
 
-sub div {
+sub divide {
     my $self = shift;
 
     my $other = GetScalar(shift);
@@ -235,24 +235,20 @@ sub GetScalar {
 }
 
 sub InitSubtypes {
-
     for my $type (ListTypes()) {
         print "Creating class $type\n" if $debug;
 
         my $prototype = GetTypeUnit($type);
-
         my $type_unit_name = $prototype->name || $prototype->def;
-
         {
             no strict 'refs';
             no warnings 'once';
             my $package = 'Physics::Unit::' . $type;
             @{$package . '::ISA'} = qw(Physics::Unit::Scalar);
-            ${$package . '::DefaultUnit'} = ${$package . '::MyUnit'} = GetUnit( $type_unit_name );
+            ${$package . '::DefaultUnit'} = ${$package . '::MyUnit'} =
+                GetUnit( $type_unit_name );
         }
-
     }
-
 }
 
 sub MyUnit {
@@ -281,7 +277,6 @@ sub ScalarResolve {
     my $self = shift;
 
     my $mu = $self->{MyUnit};
-
     my $type = $mu->type;
 
     if ($type) {
@@ -289,20 +284,15 @@ sub ScalarResolve {
         $type = 'Physics::Unit::' . $type;
 
         my $newunit = GetMyUnit($type);
-
         $self->{value} *= $mu->convert($newunit);
-
         $self->{MyUnit} = $newunit;
-
         $self->{default_unit} = $newunit;
     }
     else {
         $type = "Physics::Unit::Scalar";
 
         $self->{value} *= $mu->factor;
-
         $mu->factor(1);
-
         $self->{default_unit} = $mu;
     }
 

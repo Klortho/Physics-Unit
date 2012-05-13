@@ -1,10 +1,16 @@
-=for comment
-POD style guide:
-    unit names by themselves in the text:  B<sec>
-    inline unit expressions:  no quotes, B<cubic meters>
-    but if it's a code snippet, then C<$u = "cubic meters">
-    "Unit" in caps, when it refers to an object.
-    "unit library", "unit expression" (lowercase)
+=begin comment
+
+Style conventions for this module's POD:
+  - Names of other classes should be in and
+    L<> for a link:  L<Physics::Unit::Scalar|Physics::Unit::Scalar>.
+  - Unit names by themselves in the text:  B<sec>
+  - Inline unit expressions:  no quotes, B<cubic meters>
+  - But if it's a code snippet, then C<$u = "cubic meters">
+  - "Unit" in caps, when it refers to an object.
+  - "unit library", "unit expression" (lowercase)
+
+=end comment
+
 
 =head1 NAME
 
@@ -66,6 +72,8 @@ FIXME:  Add brief descriptions of each of these.
 Physics::Unit
 
 L<Physics::Unit::Scalar|Physics::Unit::Scalar>
+
+physics_unit
 
 L<Physics::Unit::Implementation|Physics::Unit::Implementation>
 
@@ -291,7 +299,7 @@ Or, you can just get specific ones. For example:
 
 =over
 
-=item C<InitBaseUnit($type1, $nameList1, $type2, $nameList2, ...)>
+=item InitBaseUnit(I<$type1>, I<$nameList1>, I<$type2>, I<$nameList2>, ...)
 
 This function is used to define any number of new, fundamental,
 independent dimensional quantities.  Each such quantity is represented
@@ -340,7 +348,7 @@ corresponding to the type B<Beauty>.
 After defining a new base Unit and type, you can then create other
 Units derived from this Unit, and other types derived from this type.
 
-=item C<InitPrefix($name1, $number1, $name2, $number2, ...)>
+=item InitPrefix(I<$name1>, I<$number1>, I<$name2>, I<$number2>, ...)
 
 This function defines new prefixes.  For example:
 
@@ -350,7 +358,7 @@ From then on, you can use those prefixes to define new units, as in:
 
   $beautification_rate = new Physics::Unit('5 piccolosonjas / hour');
 
-=item C<InitUnit($nameList1, $unitDef1, $nameList2, $unitDef2, ...)>
+=item InitUnit(I<$nameList1>, I<$unitDef1>, I<$nameList2>, I<$unitDef2>, ...)
 
 This function creates one or more new named Units.  This is called at
 compile time to initialize the module with all the predefined units.
@@ -375,7 +383,9 @@ So, for example, these are the same:
   InitUnit( ['mycron'], 'hour' );
   InitUnit( ['mycron'], GetUnit('hour') );
 
-=item C<InitTypes($typeName1, $unit1, $typeName2, $unit2, ...)>
+No forward references are allowed.
+
+=item InitTypes(I<$typeName1>, I<$unit1>, I<$typeName2>, I<$unit2>, ...)
 
 Use this function to define derived types. For example:
 
@@ -386,7 +396,7 @@ defines a new type that for a rate of change of B<Beauty> with time.
 This function associates a type name with a specific dimensionality.
 The magnitude of the Unit is not used.
 
-=item C<GetUnit($unitDef)>
+=item GetUnit(I<$unitDef>)
 
 Returns a Unit object associated with the the argument passed in. The
 argument can either be a Unit object (in which case it is simply returned),
@@ -394,20 +404,20 @@ a unit name (in which case the name is looked up and a reference to the
 corresponding Unit is returns), or a unit expression (in which case a new
 Unit object is created and a reference to it is returned).
 
-=item C<ListUnits()>
+=item ListUnits()
 
 Returns a list of all Unit names known, sorted alphabetically.
 
-=item C<ListTypes()>
+=item ListTypes()
 
 Returns a list of all the quantity types known to the library, sorted
 alphabetically.
 
-=item C<NumBases()>
+=item NumBases()
 
 Returns the number of base dimension units.
 
-=item C<GetTypeUnit($type)>
+=item GetTypeUnit(I<$type>)
 
 Returns the Unit object corresponding to a given type name, or B<undef> if
 the type is not recognized.
@@ -418,9 +428,9 @@ the type is not recognized.
 
 =over
 
-=item C<new Physics::Unit( $unit [, $name1, $name2, ... ] )>
+=item new Physics::Unit( I<$unit> [, I<$name1>, I<$name2>, ... ] )
 
-=item C<new( [$name1, $name2, ... ] )>
+=item I<$u>->new( [I<$name1>, I<$name2>, ... ] )
 
 This method creates a new Unit object. The names are optional.
 If more than one name is given, the first is the "primary name",
@@ -439,7 +449,7 @@ Examples:
   # Create a new, named unit:
   $u = new Physics::Unit ('3 pi furlongs', 'gorkon');
 
-=item C<type([$typeName])>
+=item I<$u>->type([I<$typeName>])
 
 Get or set this Unit's type.
 
@@ -470,7 +480,7 @@ This method returns one of:
 
 =over
 
-=item undef
+=item C<undef>
 
 no type was found to match the unit's dimensionality
 
@@ -500,36 +510,36 @@ Some examples:
   $u3 = GetUnit('joule')->new;
   $t = $u3->type;       # 'Energy'
 
-=item C<name()>
+=item I<$u>->name()
 
 Returns the primary name of the Unit. If this Unit has no names, then
 C<undef>.
 
-=item C<abbr()>
+=item I<$u>->abbr()
 
 Returns the shortest name of the Unit. If this Unit has no names,
 C<undef>.
 
-=item C<names()>
+=item I<$u>->names()
 
 Returns a list of names that can be used to reference the Unit.
 Returns the empty list if the Unit is unnamed.
 
-=item C<def()>
+=item I<$u>->def()
 
 Returns the string that was used to define this Unit.  Note that if
 the Unit has been manipulated with any of the arithmetic methods,
 then the C<def> method will return C<undef>, since the definition string is
 no longer a valid definition of the Unit.
 
-=item C<expanded()>
+=item I<$u>->expanded()
 
 Produces a string representation of the Unit, in terms of the base
 Units.  For example:
 
   print GetUnit('calorie')->expanded, "\n";  # "4184 m^2 gm s^-2"
 
-=item C<ToString()>
+=item I<$u>->ToString()
 
 There are several ways to serialize a Unit object to a string.
 This method is designed to give you what you usually want, and to always
@@ -540,29 +550,29 @@ Otherwise, if the object's definition string is still valid, this
 does the same as the C<def()> method above. Otherwise, this does the same
 thing as the C<expanded()> method.
 
-=item C<factor([$newValue])>
+=item I<$u>->factor([I<$newValue>])
 
 Get or set the Unit's conversion factor (magnitude). If this is used to set a
 Unit's factor, then the Unit object must be anonymous.
 
-=item C<convert($unitDef)>
+=item I<$u>->convert(I<$unitDef>)
 
 Returns the number which converts this Unit to another. The types of
 the Units must match. For example:
 
   print GetUnit('mile')->convert('foot'), "\n";  # 5280
 
-=item C<times($unitDef)>
+=item I<$u>->times(I<$unitDef>)
 
 Multiply this object by the given Unit.  This will, in general, change a
 Unit's dimensionality, and hence its type.
 
-=item C<recip()>
+=item I<$u>->recip()
 
 Replaced a Unit with its reciprocal.  This will, in general, change a
 Unit's dimensionality, and hence its type.
 
-=item C<divide($unitDef)>
+=item I<$u>->divide(I<$unitDef>)
 
 Divide this object by the given Unit.  This will, in general, change a
 Unit's dimensionality, and hence its type.
@@ -574,24 +584,24 @@ For example:
   $u->divide(3);            # now '4 m'
   $u->divide('.5 sec');     # now '8 m/s'
 
-=item C<power($i)>
+=item I<$u>->power(I<$i>)
 
 Raises a Unit to an integral power.   This will, in general, change its
 dimensionality, and hence its type.
 
-=item C<add($unitDef)>
+=item I<$u>->add(I<$unitDef>)
 
 Add a Unit, which must be of the same type.
 
-=item C<neg()>
+=item I<$u>->neg()
 
 Replace a Unit with its arithmetic negative.
 
-=item C<subtract($unitDef)>
+=item I<$u>->subtract(I<$unitDef>)
 
 Subtract a Unit, which must be of the same type.
 
-=item C<copy()>
+=item I<$u>->copy()
 
 This creates a copy of an existing Unit, without copying the names.
 So you are free to modify the copy (while modification of
@@ -601,9 +611,9 @@ well-defined, then it, also, is copied.
 This is the same as the new method, when new is called as an object
 method with no names.
 
-=item C<equal($unit)>
+=item I<$u>->equal(I<$unit>)
 
-=item C<Physics::Unit->equal($unit1, $unit2);>
+=item Physics::Unit->equal(I<$unit1>, I<$unit2>);
 
 This returns 1 if the two Unit objects have the same type and the
 same magnitude.

@@ -1,7 +1,6 @@
 =head1 NAME
 
-Physics::Unit::Scalar::Implementation - This page discusses implementation issues of the Physics/Unit/Scalar.pm
-module.
+Physics::Unit::Scalar::Implementation - This page discusses implementation issues of the Physics/Unit/Scalar.pm module.
 
 =head1 UNITS ASSOCIATED WITH SCALARS
 
@@ -15,6 +14,9 @@ rules:
 All objects of a particular class that derives from
 Physics::Unit::Scalar define their values relative to I<the same> Physics::Unit
 object, and thus have the same dimensionality and scale.
+Thus, for example, all objects of type Physics::Unit::Distance use
+the Unit object "meter".  Objects of type
+Physics::Unit::Acceleration use the Unit object "meter / sec^2".
 
 =item *
 
@@ -23,43 +25,30 @@ each have I<their own> Physics::Unit object to describe the quantity.
 
 =back
 
-Thus, for example, all objects of type Physics::Unit::Distance use
-the Unit object "meter".  Objects of type
-Physics::Unit::Acceleration use the Unit object "meter / sec^2".
-
-Objects of type Physics::Unit::Scalar (and not a derived class) can
-use any Unit whatsoever, for example, "1 furlong". There could also
-exist an object of type Physics::Unit::Scalar using the Unit "meter",
-but that does not imply that it is a Physics::Unit::Distance
-object. The distinction is important when considering the methods
-that can be used to manipulate and combine different Scalar types.
-
-
 =head1 Private Functions
 
-=head2 InitSubtypes()
+=over
+
+=item InitSubtypes()
 
 This is called during compilation, and creates classes for each of
 the unit types defined in Physics::Unit.
 
-If $debug is set, then it prints out the modules it creates to a
-file called ScalarSubtypes.pm.
-
-=head2 MyUnit($arg)
+=item MyUnit(I<$arg>)
 
 Returns a reference to the Unit object that is used to define the
-quantity.  $arg can either be a class name or an object that derives
+quantity.  C<$arg> can either be a class name or an object that derives
 from Physics::Unit::Scalar.
 
-=head2 GetMyUnit($class)
+=item GetMyUnit(I<$class>)
 
 Get the class' MyUnit.
 
-=head2 GetDefaultUnit($class)
+=item GetDefaultUnit(I<$class>)
 
 Get the class' DefaultUnit.
 
-=head2 ScalarResolve($hash)
+=item ScalarResolve(I<$hash>)
 
 This takes an unblessed reference to a hash as an argument.  The hash
 should have a value member and a MyUnit member.
@@ -72,3 +61,4 @@ This is used by ScalarFactory and several of the arithmetic functions
 (whenever the arithmetic function actually changes the dimensionality
 of the unit, and thus the type of scalar).
 
+=back
