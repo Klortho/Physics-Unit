@@ -25,6 +25,7 @@ $VERSION = eval $VERSION;
     ListTypes
     ListUnits
     NumBases
+    DeleteNames
 );
 
 %EXPORT_TAGS = ('ALL' => \@EXPORT_OK);
@@ -561,6 +562,47 @@ sub GetTypeUnit {
     my $t = shift;
     return $prototype{$t};
 }
+
+# DeleteNames - argument can be either an array ref, a list of name string, or
+# a unit object
+sub DeleteNames {
+    my @names;
+    my $arg1 = shift;
+    if ($arg1) {
+        print "arg1\n";
+        if (ref $arg1 eq 'ARRAY') {
+            @names = @$arg1;
+        }
+        elsif (ref $arg1) {
+            @names = $arg1->names;
+        }
+        else {
+            @names = ($arg1, @_);
+        }
+    }
+    my $u;
+    for my $n (@names) {
+        if (LookName($n) != 2) {
+            croak "'$n' is not a unit name.";
+        }
+        print "deleting '$n'\n";
+        delete $prefix{$n};
+        $u = $unit_by_name{$n};
+        delete $unit_by_name{$n};
+        # Delete the array element matching $n from @{$u->{names}}
+        my $oldNames = $u->{names};
+        my $newNames = [];
+        for (my $i = 0; $i < @$oldNames; ++$i) {
+            my $nn = $oldNames->[$i];
+            if ($n ne $nn) {
+                push @$newNames, $nn;
+            }
+        }
+        $u->{names} = $newNames;
+    }
+    return $u;
+}
+
 
 sub new {
     my $proto = shift;

@@ -75,9 +75,6 @@ ok($errmsg, 'bad definition string');
 # Construct a Physics::Unit::Distance - the class is
 # determined automagically
 
-#!!!!!!!!!!!!!!!!!!!!! Take this out:
-#$Physics::Unit::Scalar::debug = 1;
-
 $d = new Physics::Unit::Scalar('3m');
 ok(defined $d,   "new Physics::Unit::Scalar(3m)");
 is(ref($d), 'Physics::Unit::Distance', 'Distance type auto-gen');
