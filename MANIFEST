@@ -11,11 +11,9 @@ lib/Physics/Unit/Scalar.pm
 lib/Physics/Unit/Scalar/Implementation.pod
 lib/Physics/Unit/Script.pm
 lib/Physics/Unit/Script/GenPages.pm
-lib/Physics/Unit/Vector.pm
 MANIFEST      This list of files
 META.json
 META.yml
 README
 t/scalar.t
 t/unit.t
-t/vector.t

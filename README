@@ -7,7 +7,6 @@ This tarball includes the following modules
   Physics::Unit::Scalar::Implementation - pod docs
   Physics::Unit::Script
   Physics::Unit::Script::GenPages
-  Physics::Unit::Vector
   Physics::Unit::Implementation - pod docs
 
 Objects of class Physics::Unit define units of measurement that correspond
@@ -25,9 +24,6 @@ documentation for a complete list
 The module Physics::Unit::ScalarSubtypes defines several classes that
 derive from Physics::Unit::Scalar, each corresponding to a different
 physical quantity.
-
-Objects of class Physics::Unit::Vector hold vector quantities.  This
-module is still in an embryonic stage.
 
 
 SEE ALSO

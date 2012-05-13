@@ -67,8 +67,6 @@ Physics::Unit
 
 L<Physics::Unit::Scalar|Physics::Unit::Scalar>
 
-L<Physics::Unit::Vector|Physics::Unit::Vector>
-
 L<Physics::Unit::Implementation|Physics::Unit::Implementation>
 
 L<Physics::Unit::Scalar::Implementation|Physics::Unit::Scalar::Implementation>
