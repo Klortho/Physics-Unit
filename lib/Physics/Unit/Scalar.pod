@@ -4,44 +4,45 @@ Physics::Unit::Scalar
 
 =head1 SYNOPSIS
 
-    use Physics::Unit::Scalar;
-
-    # Manipulate Distances
+    # Distances
     $d = new Physics::Unit::Distance('98 mi');
-    print $d->ToString, "\n";             # prints '157715.712 meter'
-
+    print $d->ToString, "\n";             # prints 157715.712 meter
     $d->add('10 km');
-    print "Sum is ", $d->ToString, "\n";  # prints '167715.712 meter'
-
+    print $d->ToString, "\n";  # prints 167715.712 meter
     print $d->value, ' ', $d->default_unit->name, "\n";   # same thing
 
-    # Print out a quantity in a different unit:
-    print $d->ToString('mile');
+    # Convert
+    print $d->ToString('mile'), "\n";        # prints 104.213... mile
+    print $d->convert('mile'), " miles\n";   # same thing (except 'miles')
 
-    print $d->convert('mile'), " mile\n";    # same thing
+    $d2 = new Physics::Unit::Distance('2000');   # no unit given, use the default
+    print $d2->ToString, "\n";                   # prints 2000 meter
 
-    $d2 = new Physics::Unit::Distance('2000');     # no unit given, use the default
-    print $d2->ToString, "\n";
+    # Times
+    $t = Physics::Unit::Time->new('36 hours');
+    print $t->ToString, "\n";              # prints 129600 second
 
-    # Manipulate Times
-    $t = Physics::Unit::Time->new('36 years');
-    print $t->ToString, "\n";              # prints '1136073600 second'
+    # Speed = Distance / Time
+    $s = $d->div($t);            # $s is a Physics::Unit::Speed object
+    print $s->ToString, "\n";    # prints 1.2941... mps
 
-    # Speed equals Distance / Time
-    $s = $d->div($t);       #  $s is a Physics::Unit::Speed object
-    print $s->ToString, "\n";              # prints ''
-
-    # Create a Scalar with an unknown type
-    $s = new Physics::Unit::Scalar('kg m s');
-    $f = $s->div('3000 s^3');   # $f is a Physics::Unit::Force
+    # Automatic typing
+    $s = new Physics::Unit::Scalar('kg m s');   # Unrecognized type
+    print ref $s, "\n";          # $s is a Physics::Unit::Scalar
+    $f = $s->div('3000 s^3');
+    print ref $f, "\n";          # $f is a Physics::Unit::Force
 
 =head1 DESCRIPTION
+
+FIXME:  Styling.
+
+FIXME:  Links
 
 This package encapsulates information about physical quantities.
 Each instance of a class that derives from Physics::Unit::Scalar
 holds the value of some type of measurable quantity.  When you use
 this module, several new classes are immediately available.  See the
-Derived Classes section below for a complete list.
+Derived Classes section below for a complete list.  FIXME:  Where's this?
 
 You will probably only need to use these classes that derive from
 Physics::Unit::Scalar, such as Physics::Unit::Distance,
@@ -49,11 +50,10 @@ Physics::Unit::Speed, etc.  Of course, you are also free to define
 your own derived classes, based on types of physical quantities.
 
 This module relies heavily on the Physics::Unit module.  Each Scalar
-object has a Unit object that defines the dimensionality of the
-Scalar. The dimensionality also defines (more or less) the type of
-physical quantity that is stored.  The type of physical quantity
-(that is, the type of the Unit object) corresponds to the derived
-class to which the object belongs.
+object references a Unit object that defines the dimensionality of the
+Scalar. The dimensionality also identifies (usually) the type of
+physical quantity that is stored.  This type corresponds to the derived
+class of the object.
 
 For example, the class Physics::Unit::Distance uses the Physics::Unit
 object named 'meter' to define the scale of its object instances.
@@ -77,7 +77,7 @@ subclass based on its dimensionality.  Thus, when you multiply two
 Distances together, the result is an Area object.  This behavior can
 be selectively overridden when necessary.
 
-The class was designed this way in order to minimize the programmer's
+The module was designed this way in order to minimize the programmer's
 need to keep track of the various physical types of the objects in
 use, and to enable the compiler, in many cases, to verify
 computations on the basis of dimensional analysis.  Yet, there needs
@@ -87,80 +87,73 @@ Force * Distance.  Therefore, it remains the programmer's
 responsibility, in this case, to assign the correct subclass to
 Scalars that have this dimensionality.
 
-=head1 DEBUG OPTION
-
-Before the use statement, include a line turning debugging on, as in:
-
-    BEGIN { $Physics::Unit::Scalar::debug = 1; }
-    use Physics::Unit::Scalar;
-
-This will cause copious debugging output to be generated.  It will
-also cause the creation of a file, Scalar_subtypes.pm, which defines
-all of the subclasses of Scalar, based on the Unit types.  The text
-of this file is evaled in order to define the subclasses.
-
 =head1 UNITS ASSOCIATED WITH SCALARS
 
 Classes and objects derived from Physics::Unit::Scalar follow these
 rules:
 
-* All objects of a particular class that derives from
-  Physics::Unit::Scalar use the same Physics::Unit object, and thus
-  have the same dimensionality and scale.
+=over
 
-* Objects of the Physics::Unit::Scalar class (and not a derived class)
-  each have their own Physics::Unit object to describe the quantity.
+=item *
+
+All objects of a particular class that derives from
+Physics::Unit::Scalar define their values relative to the same Physics::Unit
+object, and thus have the same dimensionality and scale.
+
+=item *
+
+Objects of the Physics::Unit::Scalar class (and not a derived class)
+each have their own Physics::Unit object to describe the quantity.
+
+=back
 
 Thus, for example, all objects of type Physics::Unit::Distance use
-the Unit object "1 meter".  Objects of type
-Physics::Unit::Acceleration use the Unit object "1 meter / sec^2".
+the Unit object "meter".  Objects of type
+Physics::Unit::Acceleration use the Unit object "meter / sec^2".
 
 Objects of type Physics::Unit::Scalar (and not a derived class) can
 use any Unit whatsoever, for example, "1 furlong". There could also
-exist an object of type Physics::Unit::Scalar using the Unit "1
-meter", but that does not imply that it is a Physics::Unit::Distance
+exist an object of type Physics::Unit::Scalar using the Unit "meter",
+but that does not imply that it is a Physics::Unit::Distance
 object. The distinction is important when considering the methods
 that can be used to manipulate and combine different Scalar types.
 
 
-=head1 PUBLIC FUNCTIONS
+=head1 FUNCTIONS
 
 =head2 ScalarFactory($type)
 
-Creates a new object of one of the subtypes of Scalar, from a
-definition string (format is the same as that used by the
-Physics::Unit module).
+Creates a new object of one of the subtypes of Scalar, from an
+expression.  The syntax of the expression is the same as the unit
+expression used by the Physics::Unit module.
 
-The class of the resultant object is the same as the type of the
+The class of the resultant object matches the type of the
 unit created.
 
-If the type is undef, then the class of the resultant object
-will be 'Physics::Unit::Scalar'.
-
-If the type is 'unknown', then this function will throw an
-exception (die).
+If the type is not recognized or ambiguous, then the class of the
+resultant object will be Physics::Unit::Scalar.
 
 =head2 GetScalar($arg)
 
 This function is used by many of the arithmetic function methods,
 wherever an argument specifies a Scalar.  Those arguments can be
-passed either as an actual Physics::Unit::Scalar object or as a
-string.
+passed either as an actual Physics::Unit::Scalar object or as an
+expression string.
 
 This function returns a blessed Physics::Unit::Scalar object.
 
-
-=head1 PUBLIC METHODS
+=head1 METHODS
 
 =head2 new()
 
-Class or object method.  This makes a new user defined unit.
+Class or object method.  This makes a new user defined Scalar (or
+derived class) object.
 For example:
 
     # This creates an object of a derived class
     $d = new Physics::Unit::Distance('3 miles');
 
-    # This does the same thing; the type is figured out automagically
+    # This does the same thing; the type is figured out automatically
     # $d will be a Physics::Unit::Distance
     $d = new Physics::Unit::Scalar('3 miles');
 
