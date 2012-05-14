@@ -24,12 +24,7 @@ sub GenPages
     open my $fh, ">", "$outFile" or die "Can't open $outFile for output";
     print $fh header("Name");
 
-    print $fh tableHeader(1);
-
-    for my $name (ListUnits()) {
-        my $n = GetUnit($name);
-        printrow($fh, 1, $name, $n->type(), $n->def(), $n->expanded());
-    }
+    GenNameTable($fh);
 
     print $fh trailer();
     close $fh;
@@ -50,8 +45,38 @@ sub GenPages
 
     # Print out the table
 
-    print $fh "\n      <p>\n" .
-                tableHeader(0);
+    print $fh "\n      <p>\n";
+
+    GenTypeTable($fh);
+
+    print $fh trailer();
+    close $fh;
+
+    return @return;
+}
+
+#-----------------------------------------------------------
+sub GenNameTable
+{
+    my $fh = shift;
+
+    print $fh tableHeader(1);
+
+    for my $name (ListUnits()) {
+        my $n = GetUnit($name);
+
+        printrow($fh, 1, $name, $n->type(), $n->def(), $n->expanded());
+    }
+
+    print $fh "      </table>\n";
+}
+
+#-----------------------------------------------------------
+sub GenTypeTable
+{
+    my $fh = shift;
+
+    print $fh tableHeader(0);
 
     my $lastType = '-';
     for my $name (sort byType ListUnits())
@@ -66,10 +91,7 @@ sub GenPages
         printrow($fh, 0, $name, $t, $n->def, $n->expanded);
     }
 
-    print $fh trailer();
-    close $fh;
-
-    return @return;
+    print $fh "      </table>\n";
 }
 
 #-----------------------------------------------------------
@@ -94,7 +116,6 @@ END_HEADER
 sub trailer
 {
     return <<END_TRAILER;
-      </table>
     </div>
   </body>
 </html>
