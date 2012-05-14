@@ -14,11 +14,9 @@ lib/Physics/Unit/Script.pm
 lib/Physics/Unit/Script/GenPages.pm
 lib/Physics/Unit/UnitsByName.pod.PL
 lib/Physics/Unit/UnitsByType.pod.PL
-lib/Physics/Unit/UnitsByName.pod
-lib/Physics/Unit/UnitsByType.pod
 MANIFEST			This list of files
-META.json
-META.yml
 README
 t/scalar.t
 t/unit.t
+lib/Physics/Unit/UnitsByName.pod         Generated Pod
+lib/Physics/Unit/UnitsByType.pod         Generated Pod
