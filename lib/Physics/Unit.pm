@@ -1140,7 +1140,6 @@ Style conventions for this module's POD:
 
 =end comment
 
-
 =head1 NAME
 
 Physics::Unit - Manipulate physics units and dimensions.
