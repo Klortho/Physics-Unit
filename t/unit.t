@@ -1,7 +1,7 @@
-use Test::More tests => 40;
+use Test::More tests => 49;
 
 BEGIN { use_ok('Physics::Unit', (':ALL')) };
-
+my $u;
 
 my $mile = GetUnit('mile');
 ok(defined $mile,   "GetUnit('mile')");
@@ -42,7 +42,7 @@ is(GetUnit('mph')->factor, 0.44704, 'GetUnit(mph)->factor');
 #---------------------
 
 # Test the equivalence of several units
-my $u = GetUnit('megaparsec');
+$u = GetUnit('megaparsec');
 
 ok($u->equal(GetUnit('mega parsec')));
 ok($u->equal(GetUnit('kilo kilo parsec')));
@@ -159,3 +159,47 @@ like($Uaccl2->expanded, qr/5\.04999528589989\d*e-0*16 m s\^-2/, '$Uaccl2->expand
 my $centimetre = new Physics::Unit('centimetre / second');
 my $centimetre_expanded = $centimetre->expanded ();
 ok ($centimetre_expanded eq '0.01 m s^-1');
+
+# DeleteNames
+my @names;
+my $numNames;
+my @unitNames;
+
+# FIXME:  Figure out why this doesn't work:
+#     my $origNumNames = scalar ListUnits();
+my @origNames = ListUnits();
+my $origNumNames = scalar @origNames;
+
+$u = GetUnit('kilo');
+DeleteNames('kilo');
+@names = ListUnits();
+ok (scalar @names == $origNumNames - 1, 'Deleted kilo');
+
+@unitNames = $u->names;
+ok (scalar @unitNames == 0, 'kilo unit now has no name');
+ok (Physics::Unit::LookName('kilo') == 0, "Can't find kilo");
+
+$u = GetUnit('m');
+DeleteNames('metre', 'metres');   # Who added these British spellings?
+@names = ListUnits();
+ok (scalar @names == $origNumNames - 3, 'Deleted British spellings');
+
+@unitNames = $u->names;
+ok (scalar @unitNames == 3, 'meter has fewer names');
+ok (Physics::Unit::LookName('metre') == 0, "Can't find metre");
+
+$u = GetUnit('microns');
+DeleteNames($u);                # argument is a unit object
+@names = ListUnits();
+ok (scalar @names == $origNumNames - 6, "Fewer and fewer names");
+
+$u = GetUnit('ounces');
+DeleteNames(['ounces', 'oz']);  # argument is an array ref
+@names = ListUnits();
+ok (scalar @names == $origNumNames - 8, "Lost two more names");
+
+@unitNames = $u->names;
+ok (scalar @unitNames == 1, "oz is only name left for this unit");
+
+
+

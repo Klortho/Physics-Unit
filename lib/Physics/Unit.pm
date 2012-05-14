@@ -563,44 +563,35 @@ sub GetTypeUnit {
     return $prototype{$t};
 }
 
-# DeleteNames - argument can be either an array ref, a list of name string, or
+# DeleteNames - argument can be either an array ref, a list of name strings, or
 # a unit object
 sub DeleteNames {
-    my @names;
-    my $arg1 = shift;
-    if ($arg1) {
-        print "arg1\n";
-        if (ref $arg1 eq 'ARRAY') {
-            @names = @$arg1;
-        }
-        elsif (ref $arg1) {
-            @names = $arg1->names;
-        }
-        else {
-            @names = ($arg1, @_);
-        }
-    }
+    my $arg0 = $_[0];
+    my $argIsUnit = ref $arg0 && ref $arg0 ne 'ARRAY';
+    # Get the list of names to delete
+    my $names =
+        !ref $arg0
+            ? \@_                 # list of names
+            : ref $arg0 eq 'ARRAY'
+                ? $arg0           # array ref
+                : $arg0->{names}; # unit object
+
     my $u;
-    for my $n (@names) {
+    if ($argIsUnit) { $u = $arg0; }
+    for my $n (@$names) {
         if (LookName($n) != 2) {
             croak "'$n' is not a unit name.";
         }
-        print "deleting '$n'\n";
+        print "deleting '$n'\n" if $debug;
         delete $prefix{$n};
-        $u = $unit_by_name{$n};
+        if (!$argIsUnit) { $u = $unit_by_name{$n}; }
         delete $unit_by_name{$n};
         # Delete the array element matching $n from @{$u->{names}}
-        my $oldNames = $u->{names};
-        my $newNames = [];
-        for (my $i = 0; $i < @$oldNames; ++$i) {
-            my $nn = $oldNames->[$i];
-            if ($n ne $nn) {
-                push @$newNames, $nn;
-            }
+        if (!$argIsUnit) {
+            $u->{names} = [ grep { $_ ne $n } @{$u->{names}} ];
         }
-        $u->{names} = $newNames;
     }
-    return $u;
+    if ($argIsUnit) { $u->{names} = []; }
 }
 
 

@@ -441,6 +441,19 @@ Returns the number of base dimension units.
 Returns the Unit object corresponding to a given type name, or B<undef> if
 the type is not recognized.
 
+=item DeleteNames(I<@names>)
+
+=item DeleteNames(I<$unit>)
+
+Deletes the names indicated by the argument, which can either be a list
+of names, a reference to array of names, or a Unit object.  If the argument
+is a Unit object, then all the names of that Unit are deleted.
+
+This provides a mechanism to override specific definitions in the default
+unit library.  Use with this with caution.  If existing Unit objects
+had been constructed using these names, the C<def> value of those
+Units would be rendered invalid when these names are removed.
+
 =back
 
 =head1 METHODS
