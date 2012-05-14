@@ -5,7 +5,7 @@ use Carp;
 use base qw(Exporter);
 use vars qw( $VERSION @EXPORT_OK %EXPORT_TAGS $debug);
 
-$VERSION = '0.04_02';
+$VERSION = '0.5';
 $VERSION = eval $VERSION;
 
 @EXPORT_OK = qw( ScalarFactory GetScalar );
