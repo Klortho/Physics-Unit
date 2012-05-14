@@ -18,6 +18,10 @@ my $build = Module::Build->new(
   requires => {
     "warnings" => 0,
   },
+  PL_files => {
+    'lib/Physics/Unit/UnitsByName.pod.PL' => 'lib/Physics/Unit/UnitsByName.pod',
+    'lib/Physics/Unit/UnitsByType.pod.PL' => 'lib/Physics/Unit/UnitsByType.pod',
+  },
   meta_merge => {
     resources  => {
       repository => "https://github.com/Klortho/Physics-Unit",
