@@ -10,6 +10,7 @@ use Physics::Unit ':ALL';
 
 use parent 'Exporter';
 our @EXPORT = qw/GenPages/;
+our @EXPORT_OK = qw/GenNameTable GenTypeTable/;
 
 #-----------------------------------------------------------
 sub GenPages
