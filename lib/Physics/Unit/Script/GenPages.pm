@@ -21,36 +21,36 @@ sub GenPages
 
     $outFile = "UnitsByName.html";
     push @return, $outFile;
-    open NAMES, ">$outFile" or die "Can't open $outFile for output";
-    print NAMES header("Name");
+    open my $fh, ">", "$outFile" or die "Can't open $outFile for output";
+    print $fh header("Name");
 
-    print NAMES tableHeader(1);
+    print $fh tableHeader(1);
 
     for my $name (ListUnits()) {
         my $n = GetUnit($name);
-        printrow(1, $name, $n->type(), $n->def(), $n->expanded());
+        printrow($fh, 1, $name, $n->type(), $n->def(), $n->expanded());
     }
 
-    print NAMES trailer();
-    close NAMES;
+    print $fh trailer();
+    close $fh;
 
 
     # Generate Units by Type
 
     $outFile = "UnitsByType.html";
     push @return, $outFile;
-    open NAMES, ">$outFile" or die "Can't open $outFile for output";
-    print NAMES header("Type");
+    open $fh, ">", "$outFile" or die "Can't open $outFile for output";
+    print $fh header("Type");
 
     # Print out the "Table of Contents"
 
     my @t = ('unknown', 'prefix', ListTypes());
     my @links = map "      <a href='#$_'>$_</a>", @t;
-    print NAMES join ",\n", @links;
+    print $fh join ",\n", @links;
 
     # Print out the table
 
-    print NAMES "\n      <p>\n" .
+    print $fh "\n      <p>\n" .
                 tableHeader(0);
 
     my $lastType = '-';
@@ -59,15 +59,15 @@ sub GenPages
         my $n = GetUnit($name);
         my $t = $n->type || '';
         if ($t ne $lastType) {
-            print NAMES typeRow($t);
+            print $fh typeRow($t);
             $lastType = $t;
         }
 
-        printrow(0, $name, $t, $n->def, $n->expanded);
+        printrow($fh, 0, $name, $t, $n->def, $n->expanded);
     }
 
-    print NAMES trailer();
-    close NAMES;
+    print $fh trailer();
+    close $fh;
 
     return @return;
 }
@@ -120,8 +120,8 @@ sub tableHeader
 #-----------------------------------------------------------
 sub printrow
 {
-    my ($printType, $name, $t, $d, $ex) = @_;
-    print NAMES "        <tr>\n" .
+    my ($fh, $printType, $name, $t, $d, $ex) = @_;
+    print $fh "        <tr>\n" .
                 "          <td>$name</td>\n" .
                 ($printType ?
                     "          <td>" . typeStr($t) . "</td>\n" : '') .
