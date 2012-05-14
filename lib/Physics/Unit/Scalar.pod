@@ -81,8 +81,6 @@ page for more details.
 
 =head1 EXPORT OPTIONS
 
-FIXME:  Is this true?
-
 By default, this module exports nothing. You can request all of the
 L<functions|/FUNCTIONS> to be exported as follows:
 
@@ -90,7 +88,7 @@ L<functions|/FUNCTIONS> to be exported as follows:
 
 Or, you can just get specific ones. For example:
 
-  use Physics::Unit qw( ScalarFactory );
+  use Physics::Unit::Scalar qw( ScalarFactory GetScalar );
 
 =head1 FUNCTIONS
 
@@ -178,8 +176,9 @@ Subtract another Scalar from this one.
 
 This returns a new object which is the product of C<$self> and the
 argument.  Neither the original object nor the argument is changed.
-FIXME:  These should all work the same way.  Either all change the
-value of the existing object, or all return a new object.
+
+[FIXME:  see Github issue #22.  These methods should all work the same way.
+Either all change the value of the existing object, or all return a new object.]
 
 =item I<$s>->recip(I<$v>)
 

@@ -84,7 +84,7 @@ This page.
 Describes the Scalar class and all of the type-specific classes
 that derive from Scalar.
 
-=item physics_unit
+=item L<physics_unit>
 
 Describes the command-line utility that is included with this module.
 

@@ -2,25 +2,18 @@ package Physics::Unit::Scalar;
 
 use strict;
 use Carp;
-use vars qw($VERSION $debug);
+use base qw(Exporter);
+use vars qw( $VERSION @EXPORT_OK %EXPORT_TAGS $debug);
+
 $VERSION = '0.04_02';
 $VERSION = eval $VERSION;
 
+@EXPORT_OK = qw( ScalarFactory GetScalar );
+%EXPORT_TAGS = ('ALL' => \@EXPORT_OK);
+
 use Physics::Unit ':ALL';
 
-# This is the actual content of a user defined unit.
-my $subclass_template = <<'END_TEMPLATE';
-package Physics::Unit::%s;
-use strict;
-use base qw(Physics::Unit::Scalar);
-use Physics::Unit ':ALL';
-use vars qw($MyUnit $DefaultUnit);
-$MyUnit = GetUnit('%s');
-$DefaultUnit = $MyUnit;
-1;
-END_TEMPLATE
 
-# Call the InitSubtypes() function.
 InitSubtypes();
 
 sub new {
