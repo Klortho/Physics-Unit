@@ -336,7 +336,7 @@ This package encapsulates information about physical quantities.
 Each instance of a class that derives from Physics::Unit::Scalar
 holds the value of some type of measurable quantity.  When you use
 this module, several new classes are immediately available.  See the
-Units by Type file [FIXME: Github issue #8]
+L<UnitsByType|Physics::Unit::UnitsByType> page
 for a list of types included with the unit library.
 
 You will probably only need to use the classes that derive from

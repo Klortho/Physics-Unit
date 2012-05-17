@@ -1216,6 +1216,15 @@ that derive from Scalar.
 
 Describes the command-line utility that is included with this module.
 
+=item L<Physics::Unit::UnitsByName|Physics::Unit::UnitsByName>
+
+Table of all of the units predefined in the unit library, alphabetically
+by name.
+
+=item L<Physics::Unit::UnitsByType|Physics::Unit::UnitsByType>
+
+Tables listing all the units in the unit library, grouped by type.
+
 =item L<Physics::Unit::Implementation|Physics::Unit::Implementation>
 
 Describes some implementation details for the Unit module.
@@ -1288,7 +1297,7 @@ between the prefix and the Unit name, this would be the space
 operator, which is not the same (see below).
 
 The unit library comes with a rather complete set of predefined SI prefixes;
-see the [FIXME: Github issue #8] Units by Type page.
+see the L<UnitsByType|Physics::Unit::UnitsByType> page.
 
 The prefixes are allowed before units, or by themselves. Thus, these
 are equivalent:
@@ -1360,7 +1369,8 @@ This is the approximate grammar used by the parser.
 
 A rather complete set of units is pre-defined in the unit library, so it
 will probably be rare that you'll need to define your own. See the
-[FIXME:  issue #8] Units by Name or Units by Type page for a complete list.
+L<UnitsByName|Physics::Unit::UnitsByName> or
+L<UnitsByType|Physics::Unit::UnitsByType> page for a complete list.
 
 A B<pound> is a unit of force. I was very much tempted to make it a unit
 of mass, since that is the way it is used in everyday speech, but I just
@@ -1596,7 +1606,7 @@ This method creates a new Unit object. The names are optional.
 If more than one name is given, the first is the "primary name",
 which means it is the one returned by the C<name()> method.
 
-Unit names must be unique. See the [FIXME:  issue #8] Unit by Names
+Unit names must be unique. See the L<UnitsByName|Physics::Unit::UnitsByName>
 page to see an alphabetical list of all the pre-defined unit names.
 
 If no names are given, then an anonymous Unit is created. Note that
@@ -1625,8 +1635,8 @@ dimensionality.
 For example, B<Torque> and B<Energy> have the same
 dimensionality.  In that case, all of the predefined, named Units are explicitly
 designated to be one type or the other. For example, the Unit B<newton>
-is defined to have the type B<Energy>. See the [FIXME:  issue #8]
-list of Units by Type to
+is defined to have the type B<Energy>. See the
+L<UnitsByType|Physics::Unit::UnitsByType> page to
 see which Units are defined as B<Energy> and which as B<Torque>.
 
 If you create a new Unit object that has this dimensionality, then it will
