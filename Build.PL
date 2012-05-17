@@ -3,7 +3,23 @@ use warnings;
 
 use Module::Build 0.3601;
 
-my $build = Module::Build->new(
+my $class = Module::Build->subclass(
+  code => <<'END_CODE'
+use ExtUtils::Manifest qw/maniread maniadd/;
+sub ACTION_manifest {
+  my $self = shift;
+  $self->SUPER::ACTION_manifest;
+
+  my $manifest = maniread;
+  my @podpl = grep { /\.pod\.PL$/ } keys %$manifest;
+  my %pod = map { my $file = $_; $file =~ s/\.PL$//; ($file, "Generated Pod") } @podpl;
+  maniadd \%pod;
+}
+END_CODE
+);
+
+
+my $build = $class->new(
   module_name => "Physics::Unit",
   dist_author => 'Christopher Maloney <voldrani@gmail.com>',
   license => "perl",
@@ -16,6 +32,10 @@ my $build = Module::Build->new(
   },
   requires => {
     "warnings" => 0,
+  },
+  PL_files => {
+    'lib/Physics/Unit/UnitsByName.pod.PL' => 'lib/Physics/Unit/UnitsByName.pod',
+    'lib/Physics/Unit/UnitsByType.pod.PL' => 'lib/Physics/Unit/UnitsByType.pod',
   },
   meta_merge => {
     resources  => {
