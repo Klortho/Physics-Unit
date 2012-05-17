@@ -78,3 +78,4 @@ header("Physics::Unit::Scalar", "METHODS");
     # Copy constructor:
     $d2 = $d->new;
     print "d2 is a ", ref $d2, " -> ", $d2->ToString(), "\n";
+

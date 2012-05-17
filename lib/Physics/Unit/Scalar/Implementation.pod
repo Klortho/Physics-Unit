@@ -62,3 +62,4 @@ This is used by ScalarFactory and several of the arithmetic functions
 of the unit, and thus the type of scalar).
 
 =back
+

@@ -114,3 +114,4 @@ is($d->ToString, '1 meter', '1 meter');
 $d2 = $d->new;
 is(ref $d, 'Physics::Unit::Distance', 'Distance copy constructor');
 is($d->ToString, '1 meter', '1 meter');
+
