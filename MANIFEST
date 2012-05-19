@@ -20,3 +20,4 @@ t/scalar.t
 t/unit.t
 lib/Physics/Unit/UnitsByName.pod         Generated Pod
 lib/Physics/Unit/UnitsByType.pod         Generated Pod
+META.yml
