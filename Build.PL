@@ -11,8 +11,11 @@ sub ACTION_manifest {
   $self->SUPER::ACTION_manifest;
 
   my $manifest = maniread;
-  my @podpl = grep { /\.pod\.PL$/ } keys %$manifest;
-  my %pod = map { my $file = $_; $file =~ s/\.PL$//; ($file, "Generated Pod") } @podpl;
+  my @podpl = grep { /^Gen(.*)\.pod\.PL$/ } keys %$manifest;
+  my %pod = map {
+      my $file = $_;
+      $file =~ s/^Gen(.*)\.PL$/$1/;
+      ($file, "Generated Pod") } @podpl;
   maniadd \%pod;
 }
 END_CODE
@@ -34,8 +37,8 @@ my $build = $class->new(
     "warnings" => 0,
   },
   PL_files => {
-    'lib/Physics/Unit/UnitsByName.pod.PL' => 'lib/Physics/Unit/UnitsByName.pod',
-    'lib/Physics/Unit/UnitsByType.pod.PL' => 'lib/Physics/Unit/UnitsByType.pod',
+    'lib/Physics/Unit/GenUnitsByName.pod.PL' => 'lib/Physics/Unit/UnitsByName.pod',
+    'lib/Physics/Unit/GenUnitsByType.pod.PL' => 'lib/Physics/Unit/UnitsByType.pod',
   },
   meta_merge => {
     resources  => {

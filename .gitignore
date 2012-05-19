@@ -1,10 +1,4 @@
 Build
 Build.bat
 _build
-blib
-*.tmp
-lib/Physics/Unit/UnitsByName.pod
-lib/Physics/Unit/UnitsByName.html
-lib/Physics/Unit/UnitsByType.pod
-lib/Physics/Unit/UnitsByType.html
 
