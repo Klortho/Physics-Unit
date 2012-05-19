@@ -67,5 +67,3 @@ sub name_info {
 }
 
 1;
-
-
