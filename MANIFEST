@@ -12,9 +12,9 @@ lib/Physics/Unit/Scalar.pm
 lib/Physics/Unit/Scalar/Implementation.pod
 lib/Physics/Unit/Script.pm
 lib/Physics/Unit/Script/GenPages.pm
-lib/Physics/Unit/UnitsByName.pod.PL
-lib/Physics/Unit/UnitsByType.pod.PL
-MANIFEST			This list of files
+lib/Physics/Unit/GenUnitsByName.pod.PL
+lib/Physics/Unit/GenUnitsByType.pod.PL
+MANIFEST      This list of files
 README
 t/scalar.t
 t/unit.t
