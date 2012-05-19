@@ -11,7 +11,7 @@ use vars qw(
     $number_re
 );
 
-$VERSION = '0.52';
+$VERSION = '0.53';
 $VERSION = eval $VERSION;
 
 @EXPORT_OK = qw(

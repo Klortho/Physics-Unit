@@ -31,9 +31,7 @@ in the location of your choosing should this be more convenient.
 GenNameTable($fh);
 
 print $fh '
-
 ', '=end html
 
 ', '=cut
-
 ';

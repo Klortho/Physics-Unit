@@ -30,8 +30,8 @@ in the location of your choosing should this be more convenient.
 
 GenTypeTable($fh);
 
-print $fh '=end html
+print $fh '
+', '=end html
 
 ', '=cut
-
 ';
