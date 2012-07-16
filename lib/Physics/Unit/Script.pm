@@ -59,7 +59,7 @@ sub name_info {
     print "Class:  $classes{$class}\n";
 
     if ($class == -1 || $class == 2) {
-        print "Type:  " . $u->type() . "\n" .
+        print "Type:  " . ( $u->type() || '' ) . "\n" .
               "Definition:  " . $u->def() . "\n" .
               "Expanded:  " . $u->expanded() . "\n";
     }
