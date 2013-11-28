@@ -193,6 +193,7 @@ InitUnit (
     ['cm',],                                    'centimeter',       # exact
     ['km',],                                    'kilometer',        # exact
     ['nm',],                                    'nanometer',        # exact
+    ['mm',],                                    'millimeter',       # exact
 
     ['pica',],                                  'in/6',    # exact, but see below
     ['point',],                                 'pica/12',          # exact
