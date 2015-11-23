@@ -1,6 +1,7 @@
 package Physics::Unit::Scalar;
 
 use strict;
+use warnings;
 use Carp;
 use base qw(Exporter);
 use vars qw( $VERSION @EXPORT_OK %EXPORT_TAGS $debug);
