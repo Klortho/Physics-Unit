@@ -7,6 +7,7 @@ https://github.com/Klortho/Physics-Unit
   - Added overlooked mm shortcut (djerius)
   - Fix exponent operator bug (Timo Grodzinski)
   - Improved Changes file
+  - Improved build system
 
 0.52 2012-05-19
   - Minor pod tweaks
