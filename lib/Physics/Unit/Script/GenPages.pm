@@ -6,7 +6,7 @@ package Physics::Unit::Script::GenPages;
 use strict;
 use warnings;
 
-our $VERSION = '0.53';
+our $VERSION = '0.54';
 $VERSION = eval $VERSION;
 
 use Physics::Unit ':ALL';
