@@ -7,17 +7,14 @@ eg/ScalarSimple.pl
 eg/UnitDocExamples.pl
 eg/UnitLists.pl
 lib/Physics/Unit.pm
+lib/Physics/Unit/GenUnitsByName.pod.PL
+lib/Physics/Unit/GenUnitsByType.pod.PL
 lib/Physics/Unit/Implementation.pod
 lib/Physics/Unit/Scalar.pm
 lib/Physics/Unit/Scalar/Implementation.pod
 lib/Physics/Unit/Script.pm
 lib/Physics/Unit/Script/GenPages.pm
-lib/Physics/Unit/GenUnitsByName.pod.PL
-lib/Physics/Unit/GenUnitsByType.pod.PL
-MANIFEST      This list of files
+MANIFEST			This list of files
 README
 t/scalar.t
 t/unit.t
-lib/Physics/Unit/UnitsByName.pod         Generated Pod
-lib/Physics/Unit/UnitsByType.pod         Generated Pod
-META.yml

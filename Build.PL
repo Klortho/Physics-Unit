@@ -18,6 +18,12 @@ sub ACTION_manifest {
       ($file, "Generated Pod") } @podpl;
   maniadd \%pod;
 }
+
+sub ACTION_docs {
+  my $self = shift;
+  $self->process_PL_files;
+  $self->SUPER::ACTION_docs;
+}
 END_CODE
 );
 
