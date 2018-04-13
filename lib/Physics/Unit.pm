@@ -1808,6 +1808,8 @@ Here are some other modules that might fit your needs better than this one:
 
 =item * L<Physics::Udunits2>
 
+=item * L<mathjs>  supports units (JavaScript)
+
 =back
 
 =head1 AUTHOR
@@ -1817,11 +1819,3 @@ Written by Chris Maloney <voldrani@gmail.com>
 Special thanks for major contributions and encouragement from Joel Berger.
 Thanks also to Ben Bullock, and initial help in formatting for distribution
 from Gene Boggs <cpan@ology.net>.
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright 2002-2003 by Chris Maloney
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
