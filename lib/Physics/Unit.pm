@@ -1251,7 +1251,7 @@ A prefix Unit is a special-case dimensionless Unit object that
 can be used in expressions attached to other Unit names with no
 intervening whitespace. For example, "kilogram" is a unit expression that uses the
 prefix B<kilo>.  For more details about the use of prefixes, see
-L</"Unit Expressions">, below.
+L</"UNIT EXPRESSIONS">, below.
 
 A base unit is one that defines a new base dimension. For example,
 the Unit B<meter> is a base unit; it defines the dimension for B<Distance>.
