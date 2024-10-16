@@ -1848,14 +1848,23 @@ Here are some other modules that might fit your needs better than this one:
 
 Written by Chris Maloney <voldrani@gmail.com>
 
-Special thanks for major contributions and encouragement from Joel Berger.
-Thanks also to Ben Bullock, and initial help in formatting for distribution
-from Gene Boggs <cpan@ology.net>.
+=head CONTRIBUTORS
+
+=item * Joel Berger (jberger)
+
+=item * Ben Bullock
+
+=item * Gene Boggs <cpan@ology.net>.
+
+=item * Mohammad Anwar (manwar)
+
+=item * Matt Johnson (mjohnson108)
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2002-2003 by Chris Maloney
+Copyright 2002-2024 by Chris Maloney and L</CONTRIBUTORS>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This work is free. You can redistribute it and/or modify it under the
+terms of the Do What The Fuck You Want To Public License, Version 2,
+as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
 
