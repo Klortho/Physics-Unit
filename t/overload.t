@@ -52,7 +52,7 @@ is(ref($angle1), 'Physics::Unit::Dimensionless', '$angle1 is without dimension')
 my $sin_test = sprintf("%.1f", sin($angle1));
 is($sin_test, "1.0", "sin(\$angle1) = 1 (overloaded 'sin')");
 my $cos_test = sprintf("%.1f", cos($angle1));
-is($cos_test, "0.0", "cos(\$angle1) = 0 (overloaded 'cos')");
+ok($cos_test == 0, "cos(\$angle1) = 0 (overloaded 'cos')");
 
 my $t1 = GetScalar('-300 seconds');
 ok(defined $t1, "GetScalar('-300 seconds')");
